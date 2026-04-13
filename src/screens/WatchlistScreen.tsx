@@ -1,5 +1,6 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {Text, StyleSheet} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {useWatchlistStore} from '../store/watchlistStore';
 import {colors} from '../theme/colors';
 import {typography} from '../theme/typography';
@@ -9,7 +10,7 @@ export default function WatchlistScreen() {
   const items = useWatchlistStore(state => state.items);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <Text style={styles.heading}>My Watchlist</Text>
       {items.length === 0 ? (
         <Text style={styles.empty}>
@@ -18,7 +19,7 @@ export default function WatchlistScreen() {
       ) : (
         <Text style={styles.meta}>{items.length} titles saved</Text>
       )}
-    </View>
+    </SafeAreaView>
   );
 }
 

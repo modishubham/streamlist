@@ -1,13 +1,14 @@
 import React from 'react';
-import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
+import {Text, StyleSheet, ActivityIndicator} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {useMovieDetail} from '../hooks/useMovieDetail';
 import {colors} from '../theme/colors';
 import {typography} from '../theme/typography';
 import {spacing} from '../theme/spacing';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
-import type {HomeStackParamList} from '../navigation/types';
+import type {RootStackParamList} from '../navigation/types';
 
-type Props = NativeStackScreenProps<HomeStackParamList, 'Detail'>;
+type Props = NativeStackScreenProps<RootStackParamList, 'Detail'>;
 
 export default function DetailScreen({route}: Props) {
   const {movieId} = route.params;
@@ -15,26 +16,26 @@ export default function DetailScreen({route}: Props) {
 
   if (loading) {
     return (
-      <View style={styles.centered}>
+      <SafeAreaView style={styles.centered}>
         <ActivityIndicator size="large" color={colors.primary} />
-      </View>
+      </SafeAreaView>
     );
   }
 
   if (error || !movie) {
     return (
-      <View style={styles.centered}>
+      <SafeAreaView style={styles.centered}>
         <Text style={styles.errorText}>{error ?? 'Movie not found'}</Text>
-      </View>
+      </SafeAreaView>
     );
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.title}>{movie.title}</Text>
       <Text style={styles.tagline}>{movie.tagline}</Text>
       <Text style={styles.overview}>{movie.overview}</Text>
-    </View>
+    </SafeAreaView>
   );
 }
 

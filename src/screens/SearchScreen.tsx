@@ -6,6 +6,7 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {useSearch} from '../hooks/useSearch';
 import {colors} from '../theme/colors';
 import {typography} from '../theme/typography';
@@ -15,7 +16,7 @@ export default function SearchScreen() {
   const {results, loading, error, query, setQuery} = useSearch();
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <TextInput
         style={styles.input}
         placeholder="Search movies…"
@@ -38,7 +39,7 @@ export default function SearchScreen() {
       {!loading && !error && query.trim().length > 0 && (
         <Text style={styles.meta}>{results.length} results</Text>
       )}
-    </View>
+    </SafeAreaView>
   );
 }
 

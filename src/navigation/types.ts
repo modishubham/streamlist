@@ -1,24 +1,19 @@
 import type {NavigatorScreenParams} from '@react-navigation/native';
 
-export type HomeStackParamList = {
-  HomeMain: undefined;
-  Detail: {movieId: number};
-};
-
-export type SearchStackParamList = {
-  SearchMain: undefined;
-  Detail: {movieId: number};
-};
-
 export type RootTabParamList = {
-  Home: NavigatorScreenParams<HomeStackParamList>;
-  Search: NavigatorScreenParams<SearchStackParamList>;
+  Home: undefined;
+  Search: undefined;
   Watchlist: undefined;
   Profile: undefined;
 };
 
+export type RootStackParamList = {
+  Tabs: NavigatorScreenParams<RootTabParamList>;
+  Detail: {movieId: number};
+};
+
 declare global {
   namespace ReactNavigation {
-    interface RootParamList extends RootTabParamList {}
+    interface RootParamList extends RootStackParamList {}
   }
 }

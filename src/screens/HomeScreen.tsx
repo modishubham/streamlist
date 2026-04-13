@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {useHome} from '../hooks/useHome';
 import {colors} from '../theme/colors';
 import {typography} from '../theme/typography';
@@ -10,27 +11,27 @@ export default function HomeScreen() {
 
   if (loading) {
     return (
-      <View style={styles.centered}>
+      <SafeAreaView style={styles.centered} edges={['top']}>
         <ActivityIndicator size="large" color={colors.primary} />
-      </View>
+      </SafeAreaView>
     );
   }
 
   if (error) {
     return (
-      <View style={styles.centered}>
+      <SafeAreaView style={styles.centered} edges={['top']}>
         <Text style={styles.errorText}>{error}</Text>
-      </View>
+      </SafeAreaView>
     );
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <Text style={styles.heading}>Trending Now</Text>
       <Text style={styles.meta}>
         {trending.length} titles · {topRated.length} top rated
       </Text>
-    </View>
+    </SafeAreaView>
   );
 }
 

@@ -9,41 +9,11 @@ import WatchlistScreen from '../screens/WatchlistScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import {colors} from '../theme/colors';
 import {spacing} from '../theme/spacing';
-import type {
-  RootTabParamList,
-  HomeStackParamList,
-  SearchStackParamList,
-} from './types';
+import {typography} from '../theme/typography';
+import type {RootTabParamList, RootStackParamList} from './types';
 
+const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<RootTabParamList>();
-const HomeStack = createNativeStackNavigator<HomeStackParamList>();
-const SearchStack = createNativeStackNavigator<SearchStackParamList>();
-
-function HomeStackScreen() {
-  return (
-    <HomeStack.Navigator
-      screenOptions={{
-        headerShown: false,
-        contentStyle: {backgroundColor: colors.surface},
-      }}>
-      <HomeStack.Screen name="HomeMain" component={HomeScreen} />
-      <HomeStack.Screen name="Detail" component={DetailScreen} />
-    </HomeStack.Navigator>
-  );
-}
-
-function SearchStackScreen() {
-  return (
-    <SearchStack.Navigator
-      screenOptions={{
-        headerShown: false,
-        contentStyle: {backgroundColor: colors.surface},
-      }}>
-      <SearchStack.Screen name="SearchMain" component={SearchScreen} />
-      <SearchStack.Screen name="Detail" component={DetailScreen} />
-    </SearchStack.Navigator>
-  );
-}
 
 const TAB_ICONS: Record<keyof RootTabParamList, {focused: string; default: string}> = {
   Home: {focused: 'home', default: 'home-outline'},
@@ -52,29 +22,49 @@ const TAB_ICONS: Record<keyof RootTabParamList, {focused: string; default: strin
   Profile: {focused: 'person', default: 'person-outline'},
 };
 
-export default function RootNavigator() {
+const TAB_ICON_SIZE = 24;
+
+function TabsScreen() {
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: colors.surface_container_low,
-          borderTopColor: colors.outline_variant,
-          paddingBottom: spacing.xxs,
-          height: 60,
+          backgroundColor: colors.surface,
+          borderTopWidth: 0,
+          paddingTop: spacing.xs,
         },
-        tabBarActiveTintColor: colors.primary,
-        tabBarInactiveTintColor: colors.on_surface_variant,
-        tabBarIcon: ({focused, color, size}) => {
+        tabBarLabelStyle: {
+          ...typography.label_sm,
+          textTransform: 'uppercase',
+        },
+        tabBarActiveTintColor: colors.primary_container,
+        tabBarInactiveTintColor: colors.on_surface,
+        tabBarIcon: ({focused, color}) => {
           const icons = TAB_ICONS[route.name];
           const iconName = focused ? icons.focused : icons.default;
-          return <Icon name={iconName} size={size} color={color} />;
+          return (
+            <Icon name={iconName} size={TAB_ICON_SIZE} color={color ?? colors.on_surface} />
+          );
         },
       })}>
-      <Tab.Screen name="Home" component={HomeStackScreen} />
-      <Tab.Screen name="Search" component={SearchStackScreen} />
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Search" component={SearchScreen} />
       <Tab.Screen name="Watchlist" component={WatchlistScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
+  );
+}
+
+export default function RootNavigator() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        contentStyle: {backgroundColor: colors.surface},
+      }}>
+      <Stack.Screen name="Tabs" component={TabsScreen} />
+      <Stack.Screen name="Detail" component={DetailScreen} />
+    </Stack.Navigator>
   );
 }

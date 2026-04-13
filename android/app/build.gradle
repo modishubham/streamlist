@@ -117,3 +117,11 @@ dependencies {
         implementation jscFlavor
     }
 }
+
+// Bundle vector-icon fonts (required on Android). Do not copy these .ttf files into src/main/assets/fonts or merge fails with duplicates.
+ext {
+    vectoricons = [
+        iconFontNames: [ "Ionicons.ttf", "MaterialIcons.ttf" ]
+    ]
+}
+apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")
