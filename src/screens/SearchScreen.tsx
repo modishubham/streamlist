@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  ActivityIndicator,
-} from 'react-native';
+import {Text, TextInput, StyleSheet, ActivityIndicator} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useSearch} from '../hooks/useSearch';
 import {colors} from '../theme/colors';
@@ -13,7 +7,7 @@ import {typography} from '../theme/typography';
 import {spacing} from '../theme/spacing';
 
 export default function SearchScreen() {
-  const {results, loading, error, query, setQuery} = useSearch();
+  const {data, loading, error, query, setQuery} = useSearch();
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
@@ -37,7 +31,7 @@ export default function SearchScreen() {
       {error && <Text style={styles.errorText}>{error}</Text>}
 
       {!loading && !error && query.trim().length > 0 && (
-        <Text style={styles.meta}>{results.length} results</Text>
+        <Text style={styles.meta}>{(data ?? []).length} results</Text>
       )}
     </SafeAreaView>
   );

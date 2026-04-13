@@ -32,7 +32,7 @@ function ContentCard({
   onPress,
   style,
 }: ContentCardProps) {
-  const imageUri = getImageUrl(posterPath, 'w342');
+  const imageUri = getImageUrl(posterPath, 'w500');
 
   return (
     <Pressable
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   },
   imageWrapper: {
     aspectRatio: ASPECT_RATIO,
-    borderRadius: 12,
+    borderRadius: spacing.sm,
     backgroundColor: colors.surface_container,
     overflow: 'hidden',
   },
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surface_container_highest,
     paddingHorizontal: spacing.xs,
     paddingVertical: spacing.xxs,
-    borderRadius: 12,
+    borderRadius: spacing.sm,
   },
   ratingText: {
     ...typography.label_sm,

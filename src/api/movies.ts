@@ -1,5 +1,11 @@
 import client from './client';
-import type {Movie, MovieDetail, PaginatedResponse} from './types';
+import type {
+  Genre,
+  GenreListResponse,
+  Movie,
+  MovieDetail,
+  PaginatedResponse,
+} from './types';
 
 export async function getTrending(
   page = 1,
@@ -34,5 +40,25 @@ export async function searchMovies(
 
 export async function getMovieDetail(movieId: number): Promise<MovieDetail> {
   const {data} = await client.get<MovieDetail>(`/movie/${movieId}`);
+  return data;
+}
+
+export async function getMovieGenres(): Promise<Genre[]> {
+  const {data} = await client.get<GenreListResponse>('/genre/movie/list');
+  return data.genres;
+}
+
+export async function discoverMovies(
+  page = 1,
+  withGenresId?: number,
+): Promise<PaginatedResponse<Movie>> {
+  const params: Record<string, number> = {page};
+  if (withGenresId !== undefined) {
+    params.with_genres = withGenresId;
+  }
+  const {data} = await client.get<PaginatedResponse<Movie>>(
+    '/discover/movie',
+    {params},
+  );
   return data;
 }

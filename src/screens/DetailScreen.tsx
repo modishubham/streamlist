@@ -12,7 +12,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Detail'>;
 
 export default function DetailScreen({route}: Props) {
   const {movieId} = route.params;
-  const {movie, loading, error} = useMovieDetail(movieId);
+  const {data: movie, loading, error} = useMovieDetail(movieId);
 
   if (loading) {
     return (

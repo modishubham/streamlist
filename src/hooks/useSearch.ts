@@ -1,39 +1,39 @@
 import {useCallback, useEffect, useRef, useState} from 'react';
+import {ApiClientError} from '../api/client';
 import {searchMovies} from '../api/movies';
 import type {Movie} from '../api/types';
-
-interface SearchState {
-  results: Movie[];
-  loading: boolean;
-  error: string | null;
-}
+import type {UseQueryResult} from './types';
 
 const DEBOUNCE_MS = 400;
 
-export function useSearch() {
+export function useSearch(): UseQueryResult<Movie[]> & {
+  query: string;
+  setQuery: (q: string) => void;
+} {
   const [query, setQuery] = useState('');
-  const [state, setState] = useState<SearchState>({
-    results: [],
-    loading: false,
-    error: null,
-  });
+  const [data, setData] = useState<Movie[] | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const search = useCallback(async (q: string) => {
     if (!q.trim()) {
-      setState({results: [], loading: false, error: null});
+      setData(null);
+      setLoading(false);
+      setError(null);
       return;
     }
-    setState(prev => ({...prev, loading: true, error: null}));
+    setLoading(true);
+    setError(null);
     try {
       const res = await searchMovies(q);
-      setState({results: res.results, loading: false, error: null});
+      setData(res.results);
+      setLoading(false);
     } catch (err) {
-      setState(prev => ({
-        ...prev,
-        loading: false,
-        error: err instanceof Error ? err.message : 'Search failed',
-      }));
+      setLoading(false);
+      setError(
+        err instanceof ApiClientError ? err.message : 'Search failed',
+      );
     }
   }, []);
 
@@ -41,7 +41,9 @@ export function useSearch() {
     if (timerRef.current) {
       clearTimeout(timerRef.current);
     }
-    timerRef.current = setTimeout(() => search(query), DEBOUNCE_MS);
+    timerRef.current = setTimeout(() => {
+      search(query).catch(() => {});
+    }, DEBOUNCE_MS);
     return () => {
       if (timerRef.current) {
         clearTimeout(timerRef.current);
@@ -49,5 +51,9 @@ export function useSearch() {
     };
   }, [query, search]);
 
-  return {...state, query, setQuery};
+  const refetch = useCallback(() => {
+    search(query).catch(() => {});
+  }, [query, search]);
+
+  return {data, loading, error, refetch, query, setQuery};
 }

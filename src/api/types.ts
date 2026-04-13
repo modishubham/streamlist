@@ -44,3 +44,7 @@ export interface PaginatedResponse<T> {
   total_pages: number;
   total_results: number;
 }
+
+export interface GenreListResponse {
+  genres: Genre[];
+}

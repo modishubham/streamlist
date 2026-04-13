@@ -1,37 +1,34 @@
 import {useCallback, useEffect, useState} from 'react';
+import {ApiClientError} from '../api/client';
 import {getMovieDetail} from '../api/movies';
 import type {MovieDetail} from '../api/types';
+import type {UseQueryResult} from './types';
 
-interface DetailState {
-  movie: MovieDetail | null;
-  loading: boolean;
-  error: string | null;
-}
-
-export function useMovieDetail(movieId: number) {
-  const [state, setState] = useState<DetailState>({
-    movie: null,
-    loading: true,
-    error: null,
-  });
+export function useMovieDetail(movieId: number): UseQueryResult<MovieDetail> {
+  const [data, setData] = useState<MovieDetail | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchDetail = useCallback(async () => {
-    setState(prev => ({...prev, loading: true, error: null}));
+    setLoading(true);
+    setError(null);
     try {
-      const data = await getMovieDetail(movieId);
-      setState({movie: data, loading: false, error: null});
+      const movie = await getMovieDetail(movieId);
+      setData(movie);
+      setLoading(false);
     } catch (err) {
-      setState(prev => ({
-        ...prev,
-        loading: false,
-        error: err instanceof Error ? err.message : 'Failed to load details',
-      }));
+      setLoading(false);
+      setError(
+        err instanceof ApiClientError
+          ? err.message
+          : 'Failed to load details',
+      );
     }
   }, [movieId]);
 
   useEffect(() => {
-    fetchDetail();
+    fetchDetail().catch(() => {});
   }, [fetchDetail]);
 
-  return {...state, refetch: fetchDetail};
+  return {data, loading, error, refetch: fetchDetail};
 }
