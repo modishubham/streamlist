@@ -1,6 +1,6 @@
-type ImageSize = 'w92' | 'w154' | 'w185' | 'w342' | 'w500' | 'w780' | 'original';
+import {TMDB_IMAGE_BASE_URL} from '@env';
 
-const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p';
+type ImageSize = 'w92' | 'w154' | 'w185' | 'w342' | 'w500' | 'w780' | 'original';
 
 export function getImageUrl(
   path: string | null,
@@ -9,5 +9,5 @@ export function getImageUrl(
   if (!path) {
     return null;
   }
-  return `${TMDB_IMAGE_BASE}/${size}${path}`;
+  return `${TMDB_IMAGE_BASE_URL}/${size}${path}`;
 }

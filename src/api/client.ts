@@ -1,7 +1,5 @@
 import axios from 'axios';
-import Config from 'react-native-config';
-
-const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
+import {TMDB_BASE_URL, TMDB_ACCESS_TOKEN} from '@env';
 
 const client = axios.create({
   baseURL: TMDB_BASE_URL,
@@ -12,12 +10,8 @@ const client = axios.create({
 });
 
 client.interceptors.request.use(config => {
-  const apiKey = Config.TMDB_API_KEY;
-  if (apiKey) {
-    config.params = {
-      ...config.params,
-      api_key: apiKey,
-    };
+  if (TMDB_ACCESS_TOKEN) {
+    config.headers.Authorization = `Bearer ${TMDB_ACCESS_TOKEN}`;
   }
   return config;
 });
