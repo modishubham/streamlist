@@ -5,6 +5,7 @@ import type {Movie, PaginatedResponse} from '../api/types';
 import type {MovieListMode} from '../navigation/types';
 import type {UsePaginatedMoviesResult} from './types';
 
+
 function normalizeError(err: unknown): string {
   return err instanceof ApiClientError ? err.message : 'Something went wrong';
 }

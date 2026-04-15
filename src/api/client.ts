@@ -86,6 +86,9 @@ client.interceptors.response.use(
       config.__retryCount < 1 && isNetworkFailure(error) && !axios.isCancel(error);
     if (mayRetry) {
       config.__retryCount += 1;
+      // #region agent log
+      console.log('[DBG-ad497a] client.ts:retry |', JSON.stringify({url:config.url,retryCount:config.__retryCount}));
+      // #endregion
       return client.request(config);
     }
     return Promise.reject(toApiClientError(error));
