@@ -45,6 +45,19 @@ export interface PaginatedResponse<T> {
   total_results: number;
 }
 
+export interface CastMember {
+  id: number;
+  name: string;
+  character: string;
+  profile_path: string | null;
+  order: number;
+}
+
+export interface CreditsResponse {
+  id: number;
+  cast: CastMember[];
+}
+
 export interface GenreListResponse {
   genres: Genre[];
 }

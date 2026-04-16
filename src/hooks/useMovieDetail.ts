@@ -1,34 +1,59 @@
 import {useCallback, useEffect, useState} from 'react';
 import {ApiClientError} from '../api/client';
-import {getMovieDetail} from '../api/movies';
-import type {MovieDetail} from '../api/types';
+import {getMovieCredits, getMovieDetail, getSimilarMovies} from '../api/movies';
+import type {CastMember, Movie, MovieDetail} from '../api/types';
 import type {UseQueryResult} from './types';
 
-export function useMovieDetail(movieId: number): UseQueryResult<MovieDetail> {
-  const [data, setData] = useState<MovieDetail | null>(null);
+export interface DetailData {
+  detail: MovieDetail;
+  cast: CastMember[];
+  similar: Movie[];
+}
+
+export function useMovieDetail(movieId: number): UseQueryResult<DetailData> {
+  const [data, setData] = useState<DetailData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchDetail = useCallback(async () => {
+  const fetchAll = useCallback(async () => {
     setLoading(true);
     setError(null);
-    try {
-      const movie = await getMovieDetail(movieId);
-      setData(movie);
-      setLoading(false);
-    } catch (err) {
-      setLoading(false);
+
+    const [detailResult, creditsResult, similarResult] =
+      await Promise.allSettled([
+        getMovieDetail(movieId),
+        getMovieCredits(movieId),
+        getSimilarMovies(movieId),
+      ]);
+
+    if (detailResult.status === 'rejected') {
+      const err = detailResult.reason;
       setError(
         err instanceof ApiClientError
           ? err.message
           : 'Failed to load details',
       );
+      setLoading(false);
+      return;
     }
+
+    setData({
+      detail: detailResult.value,
+      cast:
+        creditsResult.status === 'fulfilled'
+          ? creditsResult.value.cast
+          : [],
+      similar:
+        similarResult.status === 'fulfilled'
+          ? similarResult.value.results
+          : [],
+    });
+    setLoading(false);
   }, [movieId]);
 
   useEffect(() => {
-    fetchDetail().catch(() => {});
-  }, [fetchDetail]);
+    fetchAll().catch(() => {});
+  }, [fetchAll]);
 
-  return {data, loading, error, refetch: fetchDetail};
+  return {data, loading, error, refetch: fetchAll};
 }

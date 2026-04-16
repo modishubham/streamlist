@@ -1,5 +1,6 @@
 import client from './client';
 import type {
+  CreditsResponse,
   Genre,
   GenreListResponse,
   Movie,
@@ -46,6 +47,24 @@ export async function getMovieDetail(movieId: number): Promise<MovieDetail> {
 export async function getMovieGenres(): Promise<Genre[]> {
   const {data} = await client.get<GenreListResponse>('/genre/movie/list');
   return data.genres;
+}
+
+export async function getMovieCredits(
+  movieId: number,
+): Promise<CreditsResponse> {
+  const {data} = await client.get<CreditsResponse>(
+    `/movie/${movieId}/credits`,
+  );
+  return data;
+}
+
+export async function getSimilarMovies(
+  movieId: number,
+): Promise<PaginatedResponse<Movie>> {
+  const {data} = await client.get<PaginatedResponse<Movie>>(
+    `/movie/${movieId}/similar`,
+  );
+  return data;
 }
 
 export async function discoverMovies(
