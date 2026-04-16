@@ -5,7 +5,6 @@ import type {Movie, PaginatedResponse} from '../api/types';
 import type {MovieListMode} from '../navigation/types';
 import type {UsePaginatedMoviesResult} from './types';
 
-
 function normalizeError(err: unknown): string {
   return err instanceof ApiClientError ? err.message : 'Something went wrong';
 }
@@ -85,7 +84,11 @@ export function usePaginatedMovieList(
     setError(null);
     try {
       const res = await fetchPageRef.current(currentPage + 1);
-      setMovies(prev => [...prev, ...res.results]);
+      setMovies(prev => {
+        const existingIds = new Set(prev.map(m => m.id));
+        const unique = res.results.filter(m => !existingIds.has(m.id));
+        return [...prev, ...unique];
+      });
       const nextPage = currentPage + 1;
       setPage(nextPage);
       pageRef.current = nextPage;

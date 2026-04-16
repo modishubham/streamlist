@@ -17,12 +17,19 @@ export const colors = {
 
   // Text
   on_surface: '#FFFFFF',
-  on_surface_muted: 'rgba(255,255,255,0.92)',
+  on_surface_muted: 'rgba(255,255,255,0.60)',
   on_surface_variant: '#C8C8C8',
+  /** Placeholder text inside search fields — design uses a dimmer gray than on_surface_variant. */
+  on_surface_placeholder: 'rgba(255,255,255,0.40)',
 
   // UI chrome
   see_all: '#C4A574',
-  chip_inactive_background: 'rgba(255,255,255,0.2)',
+  /** Search field and inactive genre chips — charcoal lift on near-black (design ~#2A2A2A). */
+  search_field_background: '#2A2A2A',
+  /** Selected genre chip — muted burgundy (less saturated than primary CTA). */
+  genre_chip_active_background: '#5E2A2E',
+  /** Inactive genre chip text — light red tint per design. */
+  chip_inactive_text: '#D4787B',
   hero_scrim_strong: 'rgba(0,0,0,0.55)',
   hero_scrim_soft: 'transparent',
   details_button_background: 'rgba(255,255,255,0.18)',

@@ -2,7 +2,7 @@ import React from 'react';
 import {Pressable, ScrollView, StyleSheet, Text} from 'react-native';
 import type {GenreChipOption} from '../../utils/displayGenres';
 import {colors} from '../../theme/colors';
-import {spacing} from '../../theme/spacing';
+import {radius, spacing} from '../../theme/spacing';
 import {typography} from '../../theme/typography';
 
 interface GenreChipStripProps {
@@ -52,24 +52,24 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.sm,
   },
   chip: {
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.xs,
-    borderRadius: spacing.lg,
+    paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.sm,
+    borderRadius: radius.pill,
   },
   chipActive: {
-    backgroundColor: colors.primary_container,
+    backgroundColor: colors.genre_chip_active_background,
   },
   chipInactive: {
-    backgroundColor: colors.chip_inactive_background,
+    backgroundColor: colors.search_field_background,
   },
   chipText: {
-    ...typography.title_sm,
+    ...typography.chip_label,
   },
   chipTextActive: {
     color: colors.on_surface,
   },
   chipTextInactive: {
-    color: colors.on_surface_muted,
+    color: colors.chip_inactive_text,
   },
 });
 

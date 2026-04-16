@@ -42,12 +42,12 @@ function MovieRow({
   const {width: windowWidth} = useWindowDimensions();
 
   const cardWidth = useMemo(() => {
-    const gap = spacing.sm;
+    const gap = spacing.md;
     const pad = spacing.md * 2;
     return (windowWidth - pad - gap) / 2;
   }, [windowWidth]);
 
-  const itemSpan = cardWidth + spacing.sm;
+  const itemSpan = cardWidth + spacing.md;
 
   const handleScroll = useCallback(
     (e: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -95,7 +95,7 @@ function MovieRow({
 
 const styles = StyleSheet.create({
   section: {
-    marginBottom: spacing.lg,
+    marginBottom: spacing.xl,
   },
   sectionHeader: {
     flexDirection: 'row',
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.md,
   },
   itemSeparator: {
-    width: spacing.sm,
+    width: spacing.md,
   },
 });
 

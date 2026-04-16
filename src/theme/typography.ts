@@ -43,10 +43,26 @@ export const typography = {
     letterSpacing: 0,
   } satisfies TextStyle,
 
+  /** Search field input — slightly larger than body for tap targets and design parity. */
+  search_input: {
+    fontFamily: 'InterRegular',
+    fontSize: 15,
+    fontWeight: '400',
+    letterSpacing: 0,
+    lineHeight: 20,
+  } satisfies TextStyle,
+
   label_sm: {
     fontFamily: 'InterRegular',
     fontSize: 12,
     fontWeight: '400',
+    letterSpacing: 0,
+  } satisfies TextStyle,
+
+  chip_label: {
+    fontFamily: 'InterSemiBold',
+    fontSize: 15,
+    fontWeight: '600',
     letterSpacing: 0,
   } satisfies TextStyle,
 } as const;

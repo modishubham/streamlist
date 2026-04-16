@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   title: {
     ...typography.title_sm,
     color: colors.on_surface,
-    marginTop: spacing.xs,
+    marginTop: spacing.sm,
   },
   subtitle: {
     ...typography.label_sm,

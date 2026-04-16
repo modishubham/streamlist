@@ -29,8 +29,9 @@ import type {GenreChipOption} from '../utils/displayGenres';
 import {chunkPairs} from '../utils/chunkPairs';
 import type {Movie} from '../api/types';
 
-const CARD_GAP = spacing.sm;
+const CARD_GAP = spacing.md;
 const NUM_COLUMNS = 2;
+const SEARCH_BAR_MIN_HEIGHT = spacing['2xl'] + spacing.lg;
 
 const SEARCH_CHIPS: GenreChipOption[] = [
   {id: 28, label: 'Action'},
@@ -141,12 +142,12 @@ export default function SearchScreen() {
             styles.searchBar,
             isFocused && styles.searchBarFocused,
           ]}>
-          <Icon name="search" size={20} color={colors.on_surface_variant} />
+          <Icon name="search" size={20} color={colors.on_surface_placeholder} />
           <TextInput
             ref={inputRef}
             style={styles.searchInput}
             placeholder="Search movies, actors, directors..."
-            placeholderTextColor={colors.on_surface_variant}
+            placeholderTextColor={colors.on_surface_placeholder}
             value={query}
             onChangeText={text => {
               setQuery(text);
@@ -221,7 +222,7 @@ export default function SearchScreen() {
                 renderItem={renderSearchItem}
                 keyExtractor={keyExtractor}
                 numColumns={NUM_COLUMNS}
-                columnWrapperStyle={styles.gridRow}
+                columnWrapperStyle={styles.resultsGridRow}
                 ListHeaderComponent={
                   <Text style={styles.resultCount}>
                     {movies.length} results for &apos;{query.trim()}&apos;
@@ -347,13 +348,14 @@ const styles = StyleSheet.create({
   searchBar: {
     flexDirection: 'row',
     alignItems: 'center',
+    minHeight: SEARCH_BAR_MIN_HEIGHT,
     backgroundColor: colors.surface_container_low,
     borderRadius: spacing.sm,
     marginHorizontal: spacing.md,
     marginBottom: spacing.sm,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: spacing.xs,
-    gap: spacing.xs,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    gap: spacing.sm,
     borderWidth: 1,
     borderColor: 'transparent',
   },
@@ -361,7 +363,7 @@ const styles = StyleSheet.create({
     borderColor: colors.outline_variant,
   },
   searchInput: {
-    ...typography.body_md,
+    ...typography.search_input,
     color: colors.on_surface,
     flex: 1,
     paddingVertical: 0,
@@ -370,7 +372,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   resultCount: {
-    ...typography.body_md,
+    ...typography.label_sm,
     color: colors.on_surface_variant,
     marginBottom: spacing.md,
   },
@@ -390,7 +392,7 @@ const styles = StyleSheet.create({
   },
   clearAll: {
     ...typography.title_sm,
-    color: colors.primary_container,
+    color: colors.primary_cta,
     textTransform: 'uppercase',
   },
   recentRow: {
@@ -416,8 +418,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: CARD_GAP,
   },
+  resultsGridRow: {
+    flexDirection: 'row',
+    gap: CARD_GAP,
+    marginBottom: CARD_GAP,
+  },
   cardCell: {
-    flex: 1 / NUM_COLUMNS,
+    flex: 1,
   },
   centered: {
     flex: 1,

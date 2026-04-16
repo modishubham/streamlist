@@ -13,3 +13,8 @@ export const spacing = {
 } as const;
 
 export type SpacingToken = keyof typeof spacing;
+
+/** Corner radii — keep pill shapes out of raw StyleSheet literals. */
+export const radius = {
+  pill: 9999,
+} as const;

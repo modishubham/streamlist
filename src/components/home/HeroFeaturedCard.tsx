@@ -121,7 +121,7 @@ function HeroFeaturedCard({
 const styles = StyleSheet.create({
   wrap: {
     alignSelf: 'center',
-    marginTop: spacing.md,
+    marginTop: spacing.lg,
   },
   card: {
     overflow: 'hidden',
