@@ -16,6 +16,8 @@ export interface Movie {
   popularity: number;
   original_language: string;
   adult: boolean;
+  /** Present on trending/multi-search results; used for Movies vs Series filtering. */
+  media_type?: 'movie' | 'tv';
 }
 
 export interface MovieDetail {
