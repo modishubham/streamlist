@@ -1,45 +1,48 @@
 export const colors = {
-  // Surfaces — near-black with slight lift so UI reads vivid, not crushed
-  surface: '#0C0C0C',
-  surface_container_lowest: '#0F0F0F',
-  surface_container_low: '#161616',
-  surface_container: '#1F1F1F',
-  surface_container_high: '#2E2E2E',
-  surface_container_highest: '#3A3A3A',
-  surface_bright: '#454545',
+  // Surfaces
+  surface:                   '#131313',
+  surface_container_lowest:  '#0E0E0E',
+  surface_container_low:     '#1C1B1B',
+  surface_container:         '#232323',
+  surface_container_high:    '#2A2A2A',
+  surface_container_highest: '#353534',
+  surface_bright:            '#3A3939',
 
-  // Primary accent (vibrant red + coral CTA)
-  primary: '#E5484D',
-  primary_container: '#E5484D',
-  primary_cta: '#FF8A80',
-  on_primary_cta: '#000000',
-  secondary_container: '#B71C1C',
+  // Primary accent (Coral-Red)
+  primary:                   '#FFB3AE',
+  primary_container:         '#FF5351',
+  primary_cta:               '#FF5351',
+  on_primary_cta:            '#1A0000',
+  secondary_container:       '#822625',
 
   // Text
-  on_surface: '#FFFFFF',
-  on_surface_muted: 'rgba(255,255,255,0.60)',
-  on_surface_variant: '#C8C8C8',
-  /** Placeholder text inside search fields — design uses a dimmer gray than on_surface_variant. */
-  on_surface_placeholder: 'rgba(255,255,255,0.40)',
+  on_surface:                '#E5E2E1',
+  on_surface_muted:          'rgba(229,226,225,0.60)',
+  on_surface_variant:        '#E4BDBA',
+  /** Placeholder text inside search fields — dimmer than on_surface_variant. */
+  on_surface_placeholder:    'rgba(229,226,225,0.40)',
 
   // UI chrome
-  see_all: '#C4A574',
-  /** Search field and inactive genre chips — charcoal lift on near-black (design ~#2A2A2A). */
-  search_field_background: '#2A2A2A',
-  /** Selected genre chip — muted burgundy (less saturated than primary CTA). */
-  genre_chip_active_background: '#5E2A2E',
-  /** Inactive genre chip text — light red tint per design. */
-  chip_inactive_text: '#D4787B',
-  hero_scrim_strong: 'rgba(0,0,0,0.55)',
-  hero_scrim_soft: 'transparent',
+  see_all:                   '#E4BDBA',
+  /** Search field and inactive genre chips — maps to surface_container_high. */
+  search_field_background:   '#2A2A2A',
+  /** Selected genre chip — secondary_container deep red. */
+  genre_chip_active_background: '#822625',
+  /** Inactive genre chip text — primary light tint. */
+  chip_inactive_text:        '#FFB3AE',
+  hero_scrim_strong:         'rgba(0,0,0,0.55)',
+  hero_scrim_soft:           'transparent',
   details_button_background: 'rgba(255,255,255,0.18)',
 
+  /** Rating chip — secondary_container at 30% opacity. */
+  rating_chip_bg:            'rgba(130,38,37,0.30)',
+
   // Utility
-  outline_variant: 'rgba(255,255,255,0.15)',
-  /** Sticky home header fill at rest — slightly translucent so the screen feels less flat. */
-  header_surface: 'rgba(12,12,12,0.94)',
-  /** Tab bar translucent fill — replaces BlurView to avoid Android dimming. */
-  tab_bar_surface: 'rgba(12,12,12,0.88)',
+  outline_variant:           'rgba(255,255,255,0.15)',
+  /** Sticky home header fill at rest — translucent surface. */
+  header_surface:            'rgba(19,19,19,0.94)',
+  /** Tab bar translucent fill. */
+  tab_bar_surface:           'rgba(19,19,19,0.88)',
 } as const;
 
 export type ColorToken = keyof typeof colors;

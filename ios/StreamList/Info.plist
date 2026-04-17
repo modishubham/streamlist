@@ -56,15 +56,11 @@
 	<false/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>ManropeExtraBold.ttf</string>
-		<string>ManropeMedium.ttf</string>
-		<string>ManropeBold.ttf</string>
-		<string>ManropeSemiBold.ttf</string>
-		<string>ManropeExtraLight.ttf</string>
-		<string>InterSemiBold.ttf</string>
-		<string>InterRegular.ttf</string>
-		<string>ManropeLight.ttf</string>
-		<string>ManropeRegular.ttf</string>
+		<string>Manrope-ExtraBold.ttf</string>
+		<string>Manrope-Bold.ttf</string>
+		<string>Manrope-SemiBold.ttf</string>
+		<string>Inter-Regular.ttf</string>
+		<string>Inter-SemiBold.ttf</string>
 		<string>Ionicons.ttf</string>
 		<string>MaterialIcons.ttf</string>
 	</array>

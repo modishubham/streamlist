@@ -15,7 +15,6 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import Ionicon from 'react-native-vector-icons/Ionicons';
-import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import type {RootStackParamList} from '../navigation/types';
 import {useMovieDetail} from '../hooks/useMovieDetail';
@@ -29,9 +28,10 @@ import type {CastMember, Movie, MovieDetail} from '../api/types';
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 const BACKDROP_HEIGHT = 220;
-const CAST_AVATAR_SIZE = 60;
+const CAST_AVATAR_SIZE = 64;
+const HEADER_ICON_SIZE = 40;
 const SIMILAR_CARD_WIDTH =
-  (SCREEN_WIDTH - spacing.md * 2 - spacing.sm * 2) / 2.5;
+  (SCREEN_WIDTH - spacing.xl * 2 - spacing.md * 2) / 2.5;
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Detail'>;
 
@@ -64,25 +64,35 @@ function formatRuntime(minutes: number): string {
   return `${h}h ${m}m`;
 }
 
+interface ChipData {
+  key: string;
+  label: string;
+  isRating?: boolean;
+}
+
 function MetadataChips({detail}: {detail: MovieDetail}) {
-  const chips: string[] = [];
+  const chips: ChipData[] = [];
 
   const year = detail.release_date?.slice(0, 4);
   if (year) {
-    chips.push(year);
+    chips.push({key: 'year', label: year});
   }
 
   if (detail.vote_average && detail.vote_average > 0) {
-    chips.push(`\u2605 ${detail.vote_average.toFixed(1)} Rating`);
+    chips.push({
+      key: 'rating',
+      label: `${detail.vote_average.toFixed(1)} Rating`,
+      isRating: true,
+    });
   }
 
   const genre = detail.genres?.[0]?.name;
   if (genre) {
-    chips.push(genre);
+    chips.push({key: 'genre', label: genre});
   }
 
   if (detail.runtime && detail.runtime > 0) {
-    chips.push(formatRuntime(detail.runtime));
+    chips.push({key: 'runtime', label: formatRuntime(detail.runtime)});
   }
 
   if (chips.length === 0) {
@@ -91,9 +101,20 @@ function MetadataChips({detail}: {detail: MovieDetail}) {
 
   return (
     <View style={styles.chipsRow}>
-      {chips.map(label => (
-        <View key={label} style={styles.chip}>
-          <Text style={styles.chipText}>{label}</Text>
+      {chips.map(chip => (
+        <View
+          key={chip.key}
+          style={[styles.chip, chip.isRating && styles.ratingChip]}>
+          {chip.isRating && (
+            <Ionicon name="star" size={14} color={colors.primary_cta} />
+          )}
+          <Text
+            style={[
+              styles.chipText,
+              chip.isRating && styles.ratingChipText,
+            ]}>
+            {chip.label}
+          </Text>
         </View>
       ))}
     </View>
@@ -122,11 +143,7 @@ function WatchlistButton({detail}: {detail: MovieDetail}) {
           styles.watchlistBtnAdded,
           pressed && styles.watchlistBtnPressed,
         ]}>
-        <MaterialIcon
-          name="bookmark"
-          size={20}
-          color={colors.primary_container}
-        />
+        <Ionicon name="bookmark" size={20} color={colors.primary} />
         <Text style={styles.watchlistTextAdded}>In Watchlist</Text>
       </Pressable>
     );
@@ -139,13 +156,9 @@ function WatchlistButton({detail}: {detail: MovieDetail}) {
       <LinearGradient
         colors={['#FFB3AE', '#FF5351']}
         start={{x: 0, y: 0}}
-        end={{x: 1, y: 0}}
+        end={{x: 1, y: 1}}
         style={styles.watchlistBtn}>
-        <MaterialIcon
-          name="bookmark-plus-outline"
-          size={20}
-          color={colors.on_primary_cta}
-        />
+        <Ionicon name="bookmark-outline" size={20} color={colors.on_primary_cta} />
         <Text style={styles.watchlistTextDefault}>Add to Watchlist</Text>
       </LinearGradient>
     </Pressable>
@@ -175,19 +188,25 @@ function Synopsis({overview}: {overview: string}) {
   }
 
   return (
-    <View style={styles.section}>
+    <View style={styles.synopsisSection}>
       <Text style={styles.sectionTitle}>Synopsis</Text>
       <Text
         style={styles.synopsisText}
         numberOfLines={expanded ? undefined : 3}
         onTextLayout={handleTextLayout}>
         {overview}
+        {needsTruncation && !expanded && (
+          <Text style={styles.readMore}> Read more</Text>
+        )}
       </Text>
-      {needsTruncation && (
+      {needsTruncation && expanded && (
         <Pressable onPress={toggle} hitSlop={spacing.xs}>
-          <Text style={styles.readMore}>
-            {expanded ? 'Show Less' : 'Read More'}
-          </Text>
+          <Text style={styles.readMore}>Show Less</Text>
+        </Pressable>
+      )}
+      {needsTruncation && !expanded && (
+        <Pressable onPress={toggle} hitSlop={spacing.xs}>
+          <Text style={styles.readMore}>Read more</Text>
         </Pressable>
       )}
     </View>
@@ -264,7 +283,8 @@ export default function DetailScreen({route}: Props) {
   );
 
   const backdropUri = useMemo(
-    () => (data?.detail ? getImageUrl(data.detail.backdrop_path, 'w780') : null),
+    () =>
+      data?.detail ? getImageUrl(data.detail.backdrop_path, 'w780') : null,
     [data?.detail],
   );
 
@@ -297,17 +317,24 @@ export default function DetailScreen({route}: Props) {
             <Image source={{uri: backdropUri}} style={styles.backdropImage} />
           ) : (
             <View style={styles.backdropPlaceholder}>
-              <MaterialIcon
-                name="movie-open"
-                size={48}
+              <Ionicon
+                name="film-outline"
+                size={spacing['4xl']}
                 color={colors.on_surface_variant}
               />
             </View>
           )}
+          {/* bottom fade into surface */}
           <LinearGradient
             colors={['transparent', colors.surface]}
-            locations={[0.0, 1.0]}
-            style={styles.backdropGradient}
+            locations={[0.4, 1.0]}
+            style={StyleSheet.absoluteFill}
+          />
+          {/* top scrim so header icons stay readable */}
+          <LinearGradient
+            colors={['rgba(0,0,0,0.55)', 'transparent']}
+            locations={[0.0, 0.35]}
+            style={StyleSheet.absoluteFill}
           />
         </View>
 
@@ -327,7 +354,7 @@ export default function DetailScreen({route}: Props) {
 
         {/* Cast */}
         {cast.length > 0 && (
-          <View style={styles.section}>
+          <View style={styles.castSection}>
             <Text style={styles.sectionTitle}>Cast</Text>
             <FlatList
               horizontal
@@ -343,9 +370,9 @@ export default function DetailScreen({route}: Props) {
 
         {/* More Like This */}
         {similar.length > 0 && (
-          <View style={styles.section}>
+          <View style={styles.similarSection}>
             <View style={styles.sectionHeaderRow}>
-              <Text style={styles.sectionTitle}>More Like This</Text>
+              <Text style={styles.sectionTitleInRow}>More Like This</Text>
               <Text style={styles.seeAll}>See All</Text>
             </View>
             <FlatList
@@ -368,15 +395,15 @@ export default function DetailScreen({route}: Props) {
           hitSlop={spacing.xs}
           style={styles.headerIcon}>
           <Ionicon
-            name="chevron-back"
-            size={24}
+            name="arrow-back"
+            size={spacing.xl}
             color={colors.on_surface}
           />
         </Pressable>
         <Pressable hitSlop={spacing.xs} style={styles.headerIcon}>
           <Ionicon
             name="share-outline"
-            size={22}
+            size={spacing.xl}
             color={colors.on_surface}
           />
         </Pressable>
@@ -393,7 +420,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surface,
   },
   scrollContent: {
-    paddingBottom: spacing['3xl'],
+    paddingBottom: spacing['4xl'],
   },
   centered: {
     flex: 1,
@@ -406,7 +433,6 @@ const styles = StyleSheet.create({
     color: colors.primary_container,
   },
 
-  // Header
   header: {
     position: 'absolute',
     top: 0,
@@ -415,19 +441,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: spacing.md,
-    paddingBottom: spacing.xs,
+    paddingHorizontal: spacing.xl,
+    paddingBottom: spacing.md,
+    backgroundColor: 'transparent',
     zIndex: 10,
   },
   headerIcon: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: HEADER_ICON_SIZE,
+    height: HEADER_ICON_SIZE,
+    borderRadius: HEADER_ICON_SIZE / 2,
     justifyContent: 'center',
     alignItems: 'center',
   },
 
-  // Backdrop
+  // Backdrop — HTML: h-[220px], gradient covers full inset-0
   backdropContainer: {
     width: SCREEN_WIDTH,
     height: BACKDROP_HEIGHT,
@@ -435,6 +462,7 @@ const styles = StyleSheet.create({
   backdropImage: {
     width: '100%',
     height: '100%',
+    resizeMode: 'cover',
   },
   backdropPlaceholder: {
     width: '100%',
@@ -443,58 +471,62 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  backdropGradient: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    height: BACKDROP_HEIGHT * 0.4,
-  },
 
-  // Title
+  // Title — HTML: -mt-8, text-4xl extrabold tracking-tighter, mb-3
   title: {
     ...typography.display_md,
     color: colors.on_surface,
-    paddingHorizontal: spacing.md,
-    marginTop: spacing.sm,
+    paddingHorizontal: spacing.xl,
+    marginTop: -spacing['2xl'],
   },
 
-  // Chips
+  // Chips — HTML: flex-wrap gap-3, bg-surface-container-high, px-2 py-1 rounded-md text-xs
   chipsRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: spacing.xs,
-    paddingHorizontal: spacing.md,
+    gap: spacing.sm,
+    paddingHorizontal: spacing.xl,
     marginTop: spacing.sm,
+    marginBottom: spacing.xl,
   },
   chip: {
-    backgroundColor: colors.surface_container_highest,
-    paddingHorizontal: spacing.sm,
+    backgroundColor: colors.surface_container_high,
+    paddingHorizontal: spacing.xs,
     paddingVertical: spacing.xxs,
-    borderRadius: spacing.sm,
+    borderRadius: spacing.xs,
   },
   chipText: {
     ...typography.label_sm,
+    fontWeight: '500',
     color: colors.on_surface_variant,
   },
+  ratingChip: {
+    backgroundColor: colors.rating_chip_bg,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.xxs,
+  },
+  ratingChipText: {
+    fontWeight: '700',
+    color: colors.primary_cta,
+  },
 
-  // Watchlist
+  // Watchlist — HTML: h-12 rounded-lg, gradient to-br, mb-8
   watchlistContainer: {
-    paddingHorizontal: spacing.md,
-    marginTop: spacing.lg,
+    paddingHorizontal: spacing.xl,
+    marginBottom: spacing['2xl'],
   },
   watchlistBtn: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: spacing.xs,
-    paddingVertical: spacing.sm,
-    borderRadius: spacing.sm,
+    height: spacing['4xl'],
+    borderRadius: spacing.xs,
   },
   watchlistBtnAdded: {
-    backgroundColor: colors.surface_container_highest,
     borderWidth: 1,
-    borderColor: colors.outline_variant,
+    borderColor: colors.primary,
   },
   watchlistBtnPressed: {
     opacity: 0.8,
@@ -505,60 +537,73 @@ const styles = StyleSheet.create({
   },
   watchlistTextAdded: {
     ...typography.title_sm,
-    color: colors.on_surface,
+    color: colors.primary,
   },
 
-  // Sections
-  section: {
-    marginTop: spacing.xl,
-  },
+  // Section titles — HTML: text-lg font-bold Manrope
   sectionTitle: {
-    ...typography.headline_md,
+    ...typography.title_lg,
+    fontWeight: '700',
     color: colors.on_surface,
-    paddingHorizontal: spacing.md,
+    paddingHorizontal: spacing.xl,
     marginBottom: spacing.sm,
+  },
+  sectionTitleInRow: {
+    ...typography.title_lg,
+    fontWeight: '700',
+    color: colors.on_surface,
   },
   sectionHeaderRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: spacing.md,
-    marginBottom: spacing.sm,
+    paddingHorizontal: spacing.xl,
+    marginBottom: spacing.md,
   },
   seeAll: {
-    ...typography.title_sm,
-    color: colors.see_all,
+    ...typography.label_sm,
+    fontWeight: '700',
+    color: colors.primary,
   },
 
-  // Synopsis
+  // Synopsis — HTML: mb-10, text-sm leading-relaxed text-on-surface-variant
+  synopsisSection: {
+    marginBottom: spacing['3xl'],
+  },
   synopsisText: {
     ...typography.body_md,
-    color: colors.on_surface,
-    paddingHorizontal: spacing.md,
+    color: colors.on_surface_variant,
+    paddingHorizontal: spacing.xl,
     lineHeight: 22,
   },
   readMore: {
     ...typography.title_sm,
-    color: colors.primary_container,
-    paddingHorizontal: spacing.md,
+    color: colors.on_surface,
+    paddingHorizontal: spacing.xl,
     marginTop: spacing.xxs,
   },
 
-  // Cast
+  // Cast — HTML: w-16 h-16 (64px), ring-2 ring-outline-variant/20, gap-6, mb-10
+  castSection: {
+    marginBottom: spacing['3xl'],
+  },
   castListContent: {
-    paddingHorizontal: spacing.md,
+    paddingHorizontal: spacing.xl,
   },
   castSeparator: {
-    width: spacing.md,
+    width: spacing.xl,
   },
   castItem: {
     alignItems: 'center',
-    width: CAST_AVATAR_SIZE + spacing.lg,
+    width: CAST_AVATAR_SIZE,
   },
   castAvatar: {
     width: CAST_AVATAR_SIZE,
     height: CAST_AVATAR_SIZE,
     borderRadius: CAST_AVATAR_SIZE / 2,
+    borderWidth: 2,
+    borderColor: colors.outline_variant,
+    marginBottom: spacing.xs,
   },
   castPlaceholder: {
     backgroundColor: colors.surface_container_highest,
@@ -567,22 +612,25 @@ const styles = StyleSheet.create({
   },
   castName: {
     ...typography.label_sm,
+    fontWeight: '600',
     color: colors.on_surface,
-    marginTop: spacing.xs,
     textAlign: 'center',
   },
   castCharacter: {
     ...typography.label_sm,
     color: colors.on_surface_variant,
-    marginTop: spacing.xxs,
     textAlign: 'center',
   },
 
-  // Similar
+  // Similar — HTML: w-[120px], gap-4, mb-4 on header
+  similarSection: {
+    marginBottom: spacing.md,
+  },
   similarListContent: {
-    paddingHorizontal: spacing.md,
+    paddingHorizontal: spacing.xl,
+    paddingBottom: spacing.md,
   },
   similarSeparator: {
-    width: spacing.sm,
+    width: spacing.md,
   },
 });
