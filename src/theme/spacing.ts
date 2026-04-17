@@ -17,4 +17,6 @@ export type SpacingToken = keyof typeof spacing;
 /** Corner radii — keep pill shapes out of raw StyleSheet literals. */
 export const radius = {
   pill: 9999,
+  sm: 12,
+  md: 16,
 } as const;

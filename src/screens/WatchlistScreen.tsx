@@ -14,7 +14,6 @@ import {
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import LinearGradient from 'react-native-linear-gradient';
 import ContentCard from '../components/common/ContentCard';
 import WatchlistCard from '../components/watchlist/WatchlistCard';
 import WatchlistSimilarRow from '../components/watchlist/WatchlistSimilarRow';
@@ -143,27 +142,33 @@ export default function WatchlistScreen() {
 
         {hasItems ? (
           <>
-            {/* ─── Filter tabs ─────────────────────────────────────── */}
-            <View style={styles.filterRow}>
-              {(['all', 'movies', 'series'] as FilterTab[]).map(tab => (
-                <Pressable
-                  key={tab}
-                  onPress={() => setFilter(tab)}
-                  style={[
-                    styles.filterTab,
-                    filter === tab && styles.filterTabActive,
-                  ]}
-                  accessibilityRole="button"
-                  accessibilityState={{selected: filter === tab}}>
-                  <Text
+            {/* ─── Filter tabs (full-width track + 12px pill segments) ─ */}
+            <View style={styles.filterBar}>
+              <View style={styles.filterRow}>
+                {(['all', 'movies', 'series'] as FilterTab[]).map(tab => (
+                  <Pressable
+                    key={tab}
+                    onPress={() => setFilter(tab)}
                     style={[
-                      styles.filterTabText,
-                      filter === tab && styles.filterTabTextActive,
-                    ]}>
-                    {tab === 'all' ? 'All' : tab === 'movies' ? 'Movies' : 'Series'}
-                  </Text>
-                </Pressable>
-              ))}
+                      styles.filterTab,
+                      filter === tab && styles.filterTabActive,
+                    ]}
+                    accessibilityRole="button"
+                    accessibilityState={{selected: filter === tab}}>
+                    <Text
+                      style={[
+                        styles.filterTabText,
+                        filter === tab && styles.filterTabTextActive,
+                      ]}>
+                      {tab === 'all'
+                        ? 'All'
+                        : tab === 'movies'
+                          ? 'Movies'
+                          : 'Series'}
+                    </Text>
+                  </Pressable>
+                ))}
+              </View>
             </View>
 
             {/* ─── Contextual empty (filtered) ─────────────────────── */}
@@ -228,13 +233,9 @@ export default function WatchlistScreen() {
                 onPress={navigateToHome}
                 accessibilityRole="button"
                 style={styles.ctaWrapper}>
-                <LinearGradient
-                  colors={[colors.primary_container, colors.secondary_container]}
-                  start={{x: 0, y: 0}}
-                  end={{x: 1, y: 0}}
-                  style={styles.ctaGradient}>
+                <View style={styles.ctaButton}>
                   <Text style={styles.ctaText}>Browse Trending Now</Text>
-                </LinearGradient>
+                </View>
               </Pressable>
             </View>
 
@@ -351,18 +352,27 @@ const styles = StyleSheet.create({
     color: colors.on_surface_variant,
   },
 
-  // Filter tabs
+  // Filter tabs — full-width track; active segment uses deep red (see mock)
+  filterBar: {
+    marginHorizontal: spacing.md,
+    marginBottom: spacing.lg,
+    padding: spacing.xxs,
+    borderRadius: radius.sm,
+    backgroundColor: colors.surface_container,
+  },
   filterRow: {
     flexDirection: 'row',
-    paddingHorizontal: spacing.md,
-    gap: spacing.sm,
-    marginBottom: spacing.lg,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    gap: spacing.xxs,
   },
   filterTab: {
+    paddingVertical: spacing.sm,
     paddingHorizontal: spacing.md,
-    paddingVertical: spacing.xs,
-    borderRadius: spacing['2xl'],
-    backgroundColor: colors.surface_container,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: radius.sm,
+    backgroundColor: 'transparent',
   },
   filterTabActive: {
     backgroundColor: colors.secondary_container,
@@ -372,6 +382,9 @@ const styles = StyleSheet.create({
     color: colors.on_surface_variant,
   },
   filterTabTextActive: {
+    ...typography.title_sm,
+    fontFamily: 'Manrope-Bold',
+    fontWeight: '700',
     color: colors.on_surface,
   },
 
@@ -431,15 +444,18 @@ const styles = StyleSheet.create({
     width: '100%',
     marginTop: spacing.xs,
   },
-  ctaGradient: {
-    borderRadius: radius.pill,
+  ctaButton: {
+    borderRadius: radius.md,
     paddingVertical: spacing.md,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: colors.primary_cta,
   },
   ctaText: {
-    ...typography.title_sm,
-    color: colors.on_primary_cta,
+    ...typography.chip_label,
+    fontFamily: 'Manrope-Bold',
+    fontWeight: '700',
+    color: colors.on_surface,
   },
 
   // Popular recommendations
