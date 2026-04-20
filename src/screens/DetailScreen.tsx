@@ -1,6 +1,5 @@
 import React, {useCallback, useMemo, useState} from 'react';
 import {
-  ActivityIndicator,
   Dimensions,
   FlatList,
   Image,
@@ -20,6 +19,7 @@ import type {RootStackParamList} from '../navigation/types';
 import {useMovieDetail} from '../hooks/useMovieDetail';
 import {useWatchlistStore} from '../store/watchlistStore';
 import ContentCard from '../components/common/ContentCard';
+import DetailScreenSkeleton from '../components/skeleton/DetailScreenSkeleton';
 import {colors} from '../theme/colors';
 import {spacing} from '../theme/spacing';
 import {typography} from '../theme/typography';
@@ -290,8 +290,27 @@ export default function DetailScreen({route}: Props) {
 
   if (loading) {
     return (
-      <View style={styles.centered}>
-        <ActivityIndicator size="large" color={colors.primary} />
+      <View style={styles.root}>
+        <DetailScreenSkeleton />
+        <View style={[styles.header, {paddingTop: insets.top}]}>
+          <Pressable
+            onPress={() => navigation.goBack()}
+            hitSlop={spacing.xs}
+            style={styles.headerIcon}>
+            <Ionicon
+              name="arrow-back"
+              size={spacing.xl}
+              color={colors.on_surface}
+            />
+          </Pressable>
+          <Pressable hitSlop={spacing.xs} style={styles.headerIcon}>
+            <Ionicon
+              name="share-outline"
+              size={spacing.xl}
+              color={colors.on_surface}
+            />
+          </Pressable>
+        </View>
       </View>
     );
   }

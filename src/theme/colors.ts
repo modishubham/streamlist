@@ -37,6 +37,10 @@ export const colors = {
   /** Rating chip — secondary_container at 30% opacity. */
   rating_chip_bg:            'rgba(130,38,37,0.30)',
 
+  /** Placeholder blocks for skeleton loading UI. */
+  skeleton_base:             '#2A2A2A',
+  skeleton_shimmer:          '#3A3939',
+
   // Utility
   outline_variant:           'rgba(255,255,255,0.15)',
   /** Sticky home header fill at rest — translucent surface. */

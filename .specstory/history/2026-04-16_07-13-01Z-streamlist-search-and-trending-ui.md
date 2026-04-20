@@ -1685,4 +1685,603 @@ Let me look at the design image carefully:
 
 1. **Hero banner margins**: The hero card in the design has horizontal margins of about 16px on each side (matching `spacing.md`). The current code uses `HERO_WIDTH = SCREEN_WIDTH - spacing.md * 2` which gives 16px margins. But looking at the design, it seems like the hero has the same margins as currently set. Wait, looking more carefully at the design - the hero banner seems to have a top margin that separates it from the chips, and appropriate horizontal margins. The current `marginTop: spacing.md` (16px) seems right. Let me look again...
    
-Actually, comparing the design to what we have now, the horizontal margins look correct already with the current calculation. But the spacing between the chips and the hero card might need to be increased slightly to match the design better.</details></think>
+Actually, comparing the design to what we have now, the horizontal margins look correct already with the current calculation. But the spacing between the chips and the hero card might need to be increased slightly to match the design better. Looking at the ContentCard spacing in the design, the title and subtitle margins seem tighter than what's currently implemented—the poster image should have more breathing room before the text starts, so I need to increase those margins rather than decrease them. I'm also realizing the user's feedback about "more margin" might mean the design actually shows more spacing, which would mean adjusting upward from the current `spacing.xs` and `spacing.xxs` values. The gap between cards in horizontal rows is currently 12px but the design shows closer to 16px, and the spacing from poster to title looks like it could go from 8px to 10px. The section margins might also need adjustment to match the design more closely.
+
+Looking at the actual issues the user is pointing out: the hero needs proper horizontal margins, the ContentCard needs more breathing room between elements and between cards, and the text colors need to align with the design. The subtitle color appears to be a muted gray similar to what's already being used, so that's probably fine.
+
+I should focus on making concrete spacing adjustments to the HeroFeaturedCard and ContentCard components to match the design more closely. has `marginTop: spacing.md` (16). The design shows a comfortable margin. Maybe increase to `spacing.lg` (20) for better breathing room.
+- Horizontal margins are controlled by `HERO_WIDTH = SCREEN_WIDTH - spacing.md * 2` which gives 16px sides. This looks right for the design.
+
+**ContentCard.tsx:**
+- Increase `marginTop` for title from `spacing.xs` (8) to `spacing.sm` (12)
+- Maybe increase subtitle `marginTop` from `spacing.xxs` (4) to something slightly more
+- The poster `borderRadius` in design looks like it could be slightly larger, like `spacing.sm` (12) which is what we already have
+
+**MovieRow.tsx:**
+- Increase item separator from `spacing.sm` (12) to `spacing.md` (16) for more gap between cards
+- The section margin at bottom could go from `spacing.lg` (20) to `spacing.xl` (24) for better vertical separation between sections
+
+For the text colors, the title in white matches the design perfectly. The subtitle gray at #C8C8C8 looks close, but examining the metadata text like "2024 • Action" more carefully, it seems slightly more muted than that—probably closer to `rgba(255,255,255,0.55)` to give it a bit more restraint.
+
+I'll go ahead with these spacing adjustments and keep the colors as they are for now since they're already pretty close to the design.
+
+Actually, wait—the user specifically mentioned that text and metadata colors should match the design, which makes me think they might not be aligned currently. Looking more carefully at the subtitles in the design, they appear darker and more muted than the current light gray I'm using. I'm also noticing the section titles like "Trending Now" look smaller than the current headline size, maybe closer to title size instead. The subtitle color in `on_surface_variant` seems too bright compared to what I'm seeing in the design—it looks more like a medium gray around 55% opacity rather than the current 78% brightness. Since all colors need to come from the theme tokens, I should probably add a new token for metadata text instead of changing the existing one, which would affect other components. Let me consider what adjustments make sense for the hero card and other elements. Looking at the design more carefully, I'm settling on specific spacing adjustments: increasing the Hero's top margin from `spacing.md` to `spacing.lg` for better breathing room, bumping the ContentCard title's top margin from `spacing.xs` to `spacing.sm`, and expanding the MovieRow's gap between cards from `spacing.sm` to `spacing.md` while pushing the section's bottom margin to `spacing.xl`. The metadata text color appears to already match `on_surface_variant` correctly, so I'll leave that as is. I'm laying out the specific spacing adjustments I need to make across the components—increasing margins and gaps to give the cards more breathing room. But I'm second-guessing myself on the colors; the user specifically mentioned that text and metadata should match the design, which makes me think there might be a color mismatch I'm overlooking that I need to investigate more carefully.
+
+Looking at the design, the movie titles are clearly white while the metadata underneath—like the year and genre—appears noticeably dimmer, somewhere between the current `on_surface_variant` value and something slightly darker. I need to find the right gray tone that matches what I'm seeing in the design rather than just guessing at a new token. I'm reviewing the color tokens against the design and noticing the hero synopsis text is too bright at 92% opacity—it should be more muted, around 65% to match the dimmer gray shown in the design mockup.</details></think>
+
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+Now let me check where the relevant color tokens are used.
+
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "path": "/home/shubham/Streamlist/StreamList/src",
+  "pattern": "on_surface_muted"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "/home/shubham/Streamlist/StreamList/src",
+  "pattern": "on_surface_muted",
+  "topFiles": [
+    {
+      "matchCount": 1,
+      "uri": "src/theme/colors.ts"
+    },
+    {
+      "matchCount": 1,
+      "uri": "src/components/home/HeroFeaturedCard.tsx"
+    }
+  ],
+  "totalFiles": 2,
+  "totalMatches": 2
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "path": "/home/shubham/Streamlist/StreamList/src",
+  "pattern": "on_surface_variant"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "/home/shubham/Streamlist/StreamList/src",
+  "pattern": "on_surface_variant",
+  "topFiles": [
+    {
+      "matchCount": 2,
+      "uri": "src/theme/colors.ts"
+    },
+    {
+      "matchCount": 4,
+      "uri": "src/screens/SearchScreen.tsx"
+    },
+    {
+      "matchCount": 2,
+      "uri": "src/navigation/RootNavigator.tsx"
+    },
+    {
+      "matchCount": 2,
+      "uri": "src/components/common/ContentCard.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "src/components/home/HeroFeaturedCard.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "src/screens/DetailScreen.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "src/screens/ProfileScreen.tsx"
+    },
+    {
+      "matchCount": 2,
+      "uri": "src/screens/WatchlistScreen.tsx"
+    }
+  ],
+  "totalFiles": 8,
+  "totalMatches": 15
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+<think><details><summary>Thought Process</summary>
+OK so `on_surface_muted` is only used in the hero synopsis text. Let me fix it to be more muted per the design. And `on_surface_variant` is used widely for secondary text.
+
+Looking at the design:
+1. Hero synopsis text: "In a city that never sleeps..." - appears to be about 60-65% white. Currently `rgba(255,255,255,0.92)` which is almost white. Needs to be much dimmer.
+2. Card subtitle text: "2024 • Action" - appears to be a medium gray. 
+
+`on_surface_variant` looks like it might work as-is or could go slightly dimmer. I'll adjust `on_surface_muted` down to 60% opacity to match the hero synopsis, then update the spacing in the card components—bumping up the hero's top margin, increasing the title spacing, and widening the gaps between cards in the row. For the subtitle spacing between poster and title, I'll keep that at `spacing.xxs`. With MovieRow, I'm bumping the item separator from 12px to 16px, adjusting the card width calculation accordingly, and increasing the section bottom margin from 20px to 24px to give the rows more breathing room. Let me apply these changes now.</details></think>
+
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+Now I have a full picture. Comparing the design to current code:
+
+1. **Hero synopsis text** (`on_surface_muted`) is at 92% opacity — nearly white, but the design shows it much dimmer (~60%)
+2. **ContentCard title** needs more gap from the poster
+3. **MovieRow card gap** needs to be wider (12 → 16px) and sections need more vertical breathing room
+4. **Hero top margin** needs a bit more space from the genre chips
+
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="todo_write">
+<details>
+<summary>Tool use: **todo_write**</summary>
+
+
+Parameters:
+
+```json
+{
+  "merge": true
+}
+```
+Result:
+
+```json
+{
+  "finalTodos": [
+    {
+      "content": "Fix on_surface_muted opacity in colors.ts (92% → 60%)",
+      "id": "1",
+      "status": "in_progress"
+    },
+    {
+      "content": "Increase hero card top margin in HeroFeaturedCard.tsx",
+      "id": "2",
+      "status": "pending"
+    },
+    {
+      "content": "Increase ContentCard title spacing from poster",
+      "id": "3",
+      "status": "pending"
+    },
+    {
+      "content": "Increase MovieRow card gap and section spacing",
+      "id": "4",
+      "status": "pending"
+    },
+    {
+      "content": "Lint \u0026 test",
+      "id": "5",
+      "status": "pending"
+    }
+  ],
+  "success": true
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="todo_write"><details>
+<summary>Tool use: **todo_write**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/theme/colors.ts</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/components/home/HeroFeaturedCard.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/components/common/ContentCard.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/components/home/MovieRow.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/components/home/MovieRow.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/components/home/MovieRow.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="todo_write">
+<details>
+<summary>Tool use: **todo_write**</summary>
+
+
+Parameters:
+
+```json
+{
+  "merge": true
+}
+```
+Result:
+
+```json
+{
+  "finalTodos": [
+    {
+      "content": "Fix on_surface_muted opacity in colors.ts (92% → 60%)",
+      "id": "1",
+      "status": "completed"
+    },
+    {
+      "content": "Increase hero card top margin in HeroFeaturedCard.tsx",
+      "id": "2",
+      "status": "completed"
+    },
+    {
+      "content": "Increase ContentCard title spacing from poster",
+      "id": "3",
+      "status": "completed"
+    },
+    {
+      "content": "Increase MovieRow card gap and section spacing",
+      "id": "4",
+      "status": "completed"
+    },
+    {
+      "content": "Lint \u0026 test",
+      "id": "5",
+      "status": "in_progress"
+    }
+  ],
+  "initialTodos": [
+    {
+      "content": "Fix on_surface_muted opacity in colors.ts (92% → 60%)",
+      "id": "1",
+      "status": "in_progress"
+    },
+    {
+      "content": "Increase hero card top margin in HeroFeaturedCard.tsx",
+      "id": "2",
+      "status": "pending"
+    },
+    {
+      "content": "Increase ContentCard title spacing from poster",
+      "id": "3",
+      "status": "pending"
+    },
+    {
+      "content": "Increase MovieRow card gap and section spacing",
+      "id": "4",
+      "status": "pending"
+    },
+    {
+      "content": "Lint \u0026 test",
+      "id": "5",
+      "status": "pending"
+    }
+  ],
+  "success": true,
+  "wasMerge": true
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="todo_write"><details>
+<summary>Tool use: **todo_write**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="read_lints">
+<details>
+<summary>Tool use: **read_lints**</summary>
+
+
+Parameters:
+
+```json
+{
+  "paths": [
+    "/home/shubham/Streamlist/StreamList/src/theme/colors.ts",
+    "/home/shubham/Streamlist/StreamList/src/components/home/HeroFeaturedCard.tsx",
+    "/home/shubham/Streamlist/StreamList/src/components/common/ContentCard.tsx",
+    "/home/shubham/Streamlist/StreamList/src/components/home/MovieRow.tsx"
+  ]
+}
+```
+Result:
+
+```json
+{
+  "linterErrorsByFile": [
+    {
+      "relativeWorkspacePath": "/home/shubham/Streamlist/StreamList/src/theme/colors.ts"
+    },
+    {
+      "relativeWorkspacePath": "/home/shubham/Streamlist/StreamList/src/components/home/HeroFeaturedCard.tsx"
+    },
+    {
+      "relativeWorkspacePath": "/home/shubham/Streamlist/StreamList/src/components/common/ContentCard.tsx"
+    },
+    {
+      "relativeWorkspacePath": "/home/shubham/Streamlist/StreamList/src/components/home/MovieRow.tsx"
+    }
+  ]
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="read_lints"><details>
+<summary>Tool use: **read_lints**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: cd /home/shubham/Streamlist/StreamList && npm run lint 2>&1 && npm test -- --passWithNoTests 2>&1</summary>
+
+```bash
+cd /home/shubham/Streamlist/StreamList && npm run lint 2>&1 && npm test -- --passWithNoTests 2>&1
+```
+
+```
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+
+&gt; StreamList@0.0.1 lint
+&gt; eslint .
+
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+
+&gt; StreamList@0.0.1 test
+&gt; jest --passWithNoTests
+
+PASS __tests__/api/client.test.ts
+PASS __tests__/utils/displayGenres.test.ts
+PASS __tests__/utils/chunkPairs.test.ts
+PASS __tests__/App.test.tsx
+
+Test Suites: 4 passed, 4 total
+Tests:       11 passed, 11 total
+Snapshots:   0 total
+Time:        1.391 s, estimated 2 s
+Ran all test suites.
+
+```
+</details>
+</tool-use>
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="todo_write">
+<details>
+<summary>Tool use: **todo_write**</summary>
+
+
+Parameters:
+
+```json
+{
+  "merge": true
+}
+```
+Result:
+
+```json
+{
+  "finalTodos": [
+    {
+      "content": "Fix on_surface_muted opacity in colors.ts (92% → 60%)",
+      "id": "1",
+      "status": "completed"
+    },
+    {
+      "content": "Increase hero card top margin in HeroFeaturedCard.tsx",
+      "id": "2",
+      "status": "completed"
+    },
+    {
+      "content": "Increase ContentCard title spacing from poster",
+      "id": "3",
+      "status": "completed"
+    },
+    {
+      "content": "Increase MovieRow card gap and section spacing",
+      "id": "4",
+      "status": "completed"
+    },
+    {
+      "content": "Lint \u0026 test",
+      "id": "5",
+      "status": "completed"
+    }
+  ],
+  "initialTodos": [
+    {
+      "content": "Fix on_surface_muted opacity in colors.ts (92% → 60%)",
+      "id": "1",
+      "status": "completed"
+    },
+    {
+      "content": "Increase hero card top margin in HeroFeaturedCard.tsx",
+      "id": "2",
+      "status": "completed"
+    },
+    {
+      "content": "Increase ContentCard title spacing from poster",
+      "id": "3",
+      "status": "completed"
+    },
+    {
+      "content": "Increase MovieRow card gap and section spacing",
+      "id": "4",
+      "status": "completed"
+    },
+    {
+      "content": "Lint \u0026 test",
+      "id": "5",
+      "status": "in_progress"
+    }
+  ],
+  "success": true,
+  "wasMerge": true
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="todo_write"><details>
+<summary>Tool use: **todo_write**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+All clean — lint passes and all 11 tests pass. Here's a summary of what changed:
+
+### `src/theme/colors.ts`
+- **`on_surface_muted`**: `rgba(255,255,255,0.92)` → `rgba(255,255,255,0.60)` — the hero synopsis text was nearly white; the design shows it as a clearly muted/dimmed gray for visual hierarchy.
+
+### `src/components/home/HeroFeaturedCard.tsx`
+- **Hero top margin**: `spacing.md` (16) → `spacing.lg` (20) — more breathing room between genre chips and the hero banner, matching the design gap.
+
+### `src/components/common/ContentCard.tsx`
+- **Title `marginTop`**: `spacing.xs` (8) → `spacing.sm` (12) — more space between the poster image and the title text below it, matching the design's visible gap.
+
+### `src/components/home/MovieRow.tsx`
+- **Card gap** (separator width): `spacing.sm` (12) → `spacing.md` (16) — wider horizontal spacing between cards in each row.
+- **Card width calculation**: Updated the gap variable from `spacing.sm` to `spacing.md` so cards size correctly for the new gap.
+- **Section bottom margin**: `spacing.lg` (20) → `spacing.xl` (24) — more vertical space between "Trending Now", "Top Rated", and genre rows.

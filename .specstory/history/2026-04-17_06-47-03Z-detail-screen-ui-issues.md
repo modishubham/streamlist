@@ -58,4 +58,258 @@ Now I understand the issues:
    
    Looking at the design, the header is nearly transparent with the poster visible behind it. The current `header_surface` at `rgba(12,12,12,0.94)` is way too opaque. I need to reduce it to something like `rgba(0,0,0,0.2)` or make it transparent entirely so the poster shows through clearly.
 
-2. **Icons not showing**: The rating chip displays a star icon correctly, but the watchlist buttons are using `bookmark-plus` and `bookmark` from MaterialCommunityIcons. Looking at the screenshot, the watchlist icons appear to be bookmark shapes with a flag or ribbon element. I need to verify these icon names are rendering properly or switch to the correct icon variants if they're not displaying. Looking at the code, I'm seeing that `MaterialIcon` is imported from the vector icons library, but the user specifically mentioned the rating and watchlist icons aren't displaying—which suggests either the library isn't properly installed or the icon names don't match what's available. Let me trace through which icons are actually rendering to figure out what's broken. icons. Since MaterialCommunityIcons might not be properly linked, I should switch everything to Ionicons which is already working. For the star icon, Ionicons has a direct match, and for the bookmark functionality, I can use Ionicons' `"bookmark"` and `"bookmark-outline"` variants to show the add/remove states.</details></think>
+2. **Icons not showing**: The rating chip displays a star icon correctly, but the watchlist buttons are using `bookmark-plus` and `bookmark` from MaterialCommunityIcons. Looking at the screenshot, the watchlist icons appear to be bookmark shapes with a flag or ribbon element. I need to verify these icon names are rendering properly or switch to the correct icon variants if they're not displaying. Looking at the code, I'm seeing that `MaterialIcon` is imported from the vector icons library, but the user specifically mentioned the rating and watchlist icons aren't displaying—which suggests either the library isn't properly installed or the icon names don't match what's available. Let me trace through which icons are actually rendering to figure out what's broken. icons. Since MaterialCommunityIcons might not be properly linked, I should switch everything to Ionicons which is already working. For the star icon, Ionicons has a direct match, and for the bookmark functionality, I can use Ionicons' `"bookmark"` and `"bookmark-outline"` variants to show the add/remove states. icons `"bookmark"`
+   - `movie-open` → Ionicons `"film-outline"` or `"videocam-outline"`
+
+   Actually looking at the design image more carefully:
+   - The "Add to Watchlist" icon looks like a bookmark with a small plus/flag
+   - The "In Watchlist" icon looks like a filled bookmark
+
+   For Ionicons:
+   - `"bookmark-outline"` - outlined bookmark
+   - `"bookmark"` - filled bookmark
+   - `"add-circle-outline"` 
+
+   For the rating star: `"star"` in Ionicons
+
+   Let me switch all MaterialCommunityIcons to Ionicons to ensure they render properly. Let me check what Ionicons equivalents exist:
+
+   - `star` → `"star"` in Ionicons ✓
+   - `bookmark-plus` → No direct equivalent in Ionicons. Could use `"bookmark"` for both or `"add-circle"` next to `"bookmark"`
+   - `"bookmark"` → `"bookmark"` ✓
+   - `movie-open` → `"film-outline"` or `"videocam"` ✓
+
+   Since MaterialCommunityIcons might not be properly linked and I can't modify native build files here, switching everything to Ionicons is the quickest solution. I'll use `"bookmark-outline"` for the "Add to Watchlist" state, `"bookmark"` for "In Watchlist", `"star"` for ratings, and `"person"` for cast placeholders. the backdrop placeholder, switch from `movie-open` to `"film-outline"`.
+
+Wait, but actually I should check - do Ionicons have these icons?
+- Ionicons `"star"` ✓ (filled star)
+- Ionicons `"bookmark"` ✓ (filled bookmark)
+- Ionicons `"bookmark-outline"` ✓ (outlined bookmark)
+- Ionicons `"film-outline"` ✓
+
+For the "Add to Watchlist" which uses `bookmark-plus` in MaterialCommunityIcons - in Ionicons there's no bookmark-plus. But we could use `"add-circle"` or just use `"bookmark-outline"` to differentiate from the "In Watchlist" filled `"bookmark"`.
+
+Actually - looking at the UI design screenshot more carefully:
+- The "Add to Watchlist" button shows a bookmark icon with what appears to be a small flag/arrow at the bottom (like the bookmark bookmark shape, standard bookmark icon shape)
+- The "In Watchlist" shows same shape but appears to be the same icon
+
+I think using Ionicons `"bookmark-outline"` for Add and `"bookmark"` for In Watchlist would look good.
+
+Now for the header transparency issue - the backdrop is getting hidden because the header sits on top with an opaque background. Looking at the design, the poster should be visible through the header area, so I need to make the header background transparent or nearly transparent, and possibly extend the backdrop height to account for the header's space. Still adjusting the header styling...
+
+The MaterialCommunityIcons font might not be loading properly, so I'll switch everything over to Ionicons which are already working reliably. I'm mapping each icon to its Ionicons equivalent while preserving the original sizing and colors.
+
+For the header backdrop issue, I need to add a gradient scrim at the top and make the header transparent so the backdrop extends behind it.</details></think>
+
+_**Agent (claude-4.6-sonnet-medium-thinking)**_
+
+Now I have a clear picture. There are three issues to fix:
+
+1. **Header is too opaque** (`rgba(12,12,12,0.94)`) — it covers the backdrop poster instead of letting it show through
+2. **`MaterialCommunityIcons` not rendering** — `star`, `bookmark-plus`, `bookmark`, `movie-open` are from that font; `Ionicons` is confirmed working (back/share arrows render fine), so I'll switch all icons to Ionicons
+3. **Backdrop doesn't extend behind header** — needs a top scrim so the header icons remain readable
+
+_**Agent (claude-4.6-sonnet-medium-thinking)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/screens/DetailScreen.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-sonnet-medium-thinking)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/screens/DetailScreen.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-sonnet-medium-thinking)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/screens/DetailScreen.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-sonnet-medium-thinking)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/screens/DetailScreen.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-sonnet-medium-thinking)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/screens/DetailScreen.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-sonnet-medium-thinking)**_
+
+Now fix the header transparency and add a top scrim to the backdrop so the icons stay readable:
+
+_**Agent (claude-4.6-sonnet-medium-thinking)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/screens/DetailScreen.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-sonnet-medium-thinking)**_
+
+Now make the header background transparent:
+
+_**Agent (claude-4.6-sonnet-medium-thinking)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/screens/DetailScreen.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-sonnet-medium-thinking)**_
+
+Let me verify the final state of the file looks correct:
+
+_**Agent (claude-4.6-sonnet-medium-thinking)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: /home/shubham/Streamlist/StreamList/src/screens/DetailScreen.tsx</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-sonnet-medium-thinking)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: /home/shubham/Streamlist/StreamList/src/screens/DetailScreen.tsx</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-sonnet-medium-thinking)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="read_lints">
+<details>
+<summary>Tool use: **read_lints**</summary>
+
+
+Parameters:
+
+```json
+{
+  "paths": [
+    "/home/shubham/Streamlist/StreamList/src/screens/DetailScreen.tsx"
+  ]
+}
+```
+Result:
+
+```json
+{
+  "linterErrorsByFile": [
+    {
+      "relativeWorkspacePath": "/home/shubham/Streamlist/StreamList/src/screens/DetailScreen.tsx"
+    }
+  ]
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="read_lints"><details>
+<summary>Tool use: **read_lints**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-sonnet-medium-thinking)**_
+
+No linter errors. Here's a summary of what changed and why:
+
+---
+
+**What changed — `src/screens/DetailScreen.tsx`**
+
+**1. Header background → transparent**
+- `header` style was using `backgroundColor: colors.header_surface` (`rgba(12,12,12,0.94)`) — almost completely opaque, which blocked the poster image.
+- Changed to `backgroundColor: 'transparent'` so the backdrop shows through cleanly.
+
+**2. Top scrim added to backdrop**
+- Added a second `LinearGradient` over the backdrop that fades from `rgba(0,0,0,0.55)` at the top to transparent at 35% height. This keeps the back and share icons readable against the poster without a solid header background.
+- Also loosened the bottom gradient `locations` from `[0.0, 1.0]` → `[0.4, 1.0]` so more of the poster is visible before it fades into the surface colour.
+
+**3. Icons — all switched to `Ionicons`**
+- Removed the `MaterialCommunityIcons` import entirely (that font wasn't rendering).
+- Replaced each icon with the `Ionicons` equivalent which is confirmed working (same library used for the back/share arrows):
+  - `MaterialIcon star` → `Ionicon "star"` (rating chip)
+  - `MaterialIcon bookmark-plus` → `Ionicon "bookmark-outline"` (Add to Watchlist button)
+  - `MaterialIcon bookmark` → `Ionicon "bookmark"` (In Watchlist button)
+  - `MaterialIcon movie-open` → `Ionicon "film-outline"` (backdrop placeholder)

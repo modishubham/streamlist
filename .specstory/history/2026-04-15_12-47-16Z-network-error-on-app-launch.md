@@ -1368,9 +1368,29 @@ The issue has been fixed. Please clean up the instrumentation.
 
 _**Agent (claude-4.6-opus-high-thinking)**_
 
-<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
-<details><summary>Tool use: **run_terminal_command_v2**</summary>
+Let me verify the fix with post-fix logs first, then clean up.
 
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: adb logcat -d -t 100 | grep "DBG-ad497a" | tail -20</summary>
+
+```bash
+adb logcat -d -t 100 | grep "DBG-ad497a" | tail -20
+```
+
+```
+04-15 18:29:24.562 12200 12382 I ReactNativeJS: '[DBG-ad497a] client.ts:responseOK |', '{"url":"/movie/top_rated","status":200}'
+04-15 18:29:25.108 12200 12382 I ReactNativeJS: '[DBG-ad497a] client.ts:responseOK |', '{"url":"/trending/movie/week","status":200}'
+04-15 18:29:25.112 12200 12382 I ReactNativeJS: '[DBG-ad497a] client.ts:responseOK |', '{"url":"/discover/movie","status":200}'
+04-15 18:29:25.775 12200 12382 I ReactNativeJS: '[DBG-ad497a] client.ts:request |', '{"baseURL":"https://api.themoviedb.org/3","url":"/trending/movie/week","hasAuth":true}'
+04-15 18:29:25.776 12200 12382 I ReactNativeJS: '[DBG-ad497a] client.ts:request |', '{"baseURL":"https://api.themoviedb.org/3","url":"/movie/top_rated","hasAuth":true}'
+04-15 18:29:25.777 12200 12382 I ReactNativeJS: '[DBG-ad497a] client.ts:request |', '{"baseURL":"https://api.themoviedb.org/3","url":"/discover/movie","hasAuth":true}'
+04-15 18:29:26.132 12200 12382 I ReactNativeJS: '[DBG-ad497a] client.ts:responseOK |', '{"url":"/trending/movie/week","status":200}'
+04-15 18:29:26.481 12200 12382 I ReactNativeJS: '[DBG-ad497a] client.ts:responseOK |', '{"url":"/discover/movie","status":200}'
+04-15 18:29:26.521 12200 12382 I ReactNativeJS: '[DBG-ad497a] client.ts:responseOK |', '{"url":"/movie/top_rated","status":200}'
+
+```
 </details>
 </tool-use>
 
@@ -1378,3 +1398,179 @@ _**Agent (claude-4.6-opus-high-thinking)**_
 <summary>Tool use: **run_terminal_command_v2**</summary>
 
 </details></tool-use>
+
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+All API calls now return **HTTP 200** — confirmed fixed. Before/after comparison:
+
+- **Before:** `"msg":"Network Error","code":"ERR_NETWORK","isNetwork":true"` on all endpoints
+- **After:** `"status":200` on `/trending/movie/week`, `/movie/top_rated`, `/discover/movie`, `/genre/movie/list`
+
+Now removing all instrumentation from both files.
+
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/api/client.ts</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/api/client.ts</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/api/client.ts</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/api/client.ts</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/api/client.ts</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+Now clean up the hook file:
+
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/hooks/usePaginatedMovies.ts</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/hooks/usePaginatedMovies.ts</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+Let me verify both files are clean:
+
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "path": "/home/shubham/Streamlist/StreamList/src",
+  "pattern": "DBG-ad497a|#region agent log|#endregion"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "/home/shubham/Streamlist/StreamList/src",
+  "pattern": "DBG-ad497a|#region agent log|#endregion",
+  "topFiles": [],
+  "totalFiles": 0,
+  "totalMatches": 0
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+All instrumentation has been removed. Here's a summary:
+
+**Problem:** The home screen showed a "Network Error" with no content after app launch.
+
+**Root cause:** Your local DNS resolver returned an unreachable IP (`49.44.79.236`, Tata Communications CDN edge) for `api.themoviedb.org`. The app code was correct — all env vars loaded properly, the base URL and auth token were valid — but the network requests failed at the transport layer because the resolved IP was unreachable from your network.
+
+**Fix:** Configured the Android emulator's Private DNS to use Google DNS (`dns.google`), which resolves `api.themoviedb.org` to working CloudFront IPs (`3.175.86.x`). No code changes were needed.
+
+**Files modified:** None (only temporary instrumentation was added and removed).
+
+**Note:** This DNS setting persists on the emulator. If you create a new emulator or wipe data, you may need to re-apply it. You can also fix this system-wide on your host machine by configuring your network to use DNS `8.8.8.8` or `1.1.1.1` instead of the default ISP DNS.

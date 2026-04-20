@@ -3,7 +3,6 @@ import {useNavigation} from '@react-navigation/native';
 import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React, {useCallback, useRef, useState} from 'react';
 import {
-  ActivityIndicator,
   Animated,
   Dimensions,
   type NativeScrollEvent,
@@ -19,6 +18,8 @@ import {HOME_HEADER_CONTENT_HEIGHT} from '../components/home/homeLayout';
 import HomeHeader from '../components/home/HomeHeader';
 import HomeLoadingFooter from '../components/home/HomeLoadingFooter';
 import MovieRow from '../components/home/MovieRow';
+import DiscoverRowSkeleton from '../components/skeleton/DiscoverRowSkeleton';
+import HomeScreenSkeleton from '../components/skeleton/HomeScreenSkeleton';
 import {useDisplayGenres} from '../hooks/useDisplayGenres';
 import {
   useDiscoverMovies,
@@ -119,11 +120,7 @@ export default function HomeScreen() {
     trending.loading && trending.movies.length === 0;
 
   if (initialBlocking) {
-    return (
-      <SafeAreaView style={styles.centered} edges={['top']}>
-        <ActivityIndicator size="large" color={colors.primary_container} />
-      </SafeAreaView>
-    );
+    return <HomeScreenSkeleton />;
   }
 
   if (trending.error && trending.movies.length === 0) {
@@ -186,9 +183,7 @@ export default function HomeScreen() {
             listKey="top_rated"
           />
           {discover.loading && discover.movies.length === 0 ? (
-            <View style={styles.rowLoading}>
-              <ActivityIndicator color={colors.primary_container} />
-            </View>
+            <DiscoverRowSkeleton />
           ) : discover.error && discover.movies.length === 0 ? (
             <View style={styles.rowMessage}>
               <Text style={styles.rowErrorText}>{discover.error}</Text>
@@ -253,10 +248,6 @@ const styles = StyleSheet.create({
   },
   rows: {
     marginTop: spacing.md,
-  },
-  rowLoading: {
-    paddingVertical: spacing.xl,
-    alignItems: 'center',
   },
   rowMessage: {
     paddingHorizontal: spacing.md,

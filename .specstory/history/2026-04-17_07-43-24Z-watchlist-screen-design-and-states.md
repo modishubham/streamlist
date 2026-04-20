@@ -1422,11 +1422,70 @@ and Bottom nav bar should be backgroundColor: 'rgba(35, 35, 35, 0.70)'
 
 _**Agent (composer-2)**_
 
+<think><details><summary>Thought Process</summary>
+**Searching codebase**
+
+I'm looking for primary CTA button components and tab bar styling in the RootNavigator. </details></think>
+
+_**Agent (composer-2)**_
+
+
+Searching the codebase for primary CTAs and tab bar configuration so we can apply the gradient and blur styling.
+
+
+
+_**Agent (composer-2)**_
+
 <tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
 <details>
 <summary>Tool use: **ripgrep_raw_search**</summary>
 
-Status: **loading**
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "*.{tsx,ts}",
+  "path": "/home/shubham/Streamlist/StreamList",
+  "pattern": "LinearGradient|primary_cta|CTA|Pressable.*gradient"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "/home/shubham/Streamlist/StreamList",
+  "pattern": "LinearGradient|primary_cta|CTA|Pressable.*gradient",
+  "topFiles": [
+    {
+      "matchCount": 4,
+      "uri": "./src/screens/WatchlistScreen.tsx"
+    },
+    {
+      "matchCount": 2,
+      "uri": "./src/theme/colors.ts"
+    },
+    {
+      "matchCount": 9,
+      "uri": "./src/screens/DetailScreen.tsx"
+    },
+    {
+      "matchCount": 5,
+      "uri": "./src/components/home/HeroFeaturedCard.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "./src/screens/SearchScreen.tsx"
+    }
+  ],
+  "totalFiles": 5,
+  "totalMatches": 21
+}
+```
+Status: **completed**
 
 
 </details>
@@ -1440,7 +1499,7 @@ Status: **loading**
 _**Agent (composer-2)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: </summary>
+<details><summary>Tool use: **read_file_v2** • Read file: /home/shubham/Streamlist/StreamList/src/navigation/RootNavigator.tsx</summary>
 
 </details>
 </tool-use>
@@ -1453,7 +1512,7 @@ _**Agent (composer-2)**_
 _**Agent (composer-2)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: </summary>
+<details><summary>Tool use: **read_file_v2** • Read file: /home/shubham/Streamlist/StreamList/src/theme/colors.ts</summary>
 
 </details>
 </tool-use>
@@ -1466,7 +1525,7 @@ _**Agent (composer-2)**_
 _**Agent (composer-2)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: </summary>
+<details><summary>Tool use: **read_file_v2** • Read file: /home/shubham/Streamlist/StreamList/package.json</summary>
 
 </details>
 </tool-use>
@@ -1475,6 +1534,20 @@ _**Agent (composer-2)**_
 <summary>Tool use: **read_file_v2**</summary>
 
 </details></tool-use>
+
+_**Agent (composer-2)**_
+
+<think><details><summary>Thought Process</summary>
+**Adding gradient constants**
+
+I'm adding gradient color constants to colors.ts with the specified hex values. </details></think>
+
+_**Agent (composer-2)**_
+
+
+
+
+
 
 _**Agent (composer-2)**_
 
@@ -1482,7 +1555,80 @@ _**Agent (composer-2)**_
 <details>
 <summary>Tool use: **ripgrep_raw_search**</summary>
 
-Status: **loading**
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "*.tsx",
+  "path": "/home/shubham/Streamlist/StreamList/src",
+  "pattern": "LinearGradient|primary_cta|primary_container"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "/home/shubham/Streamlist/StreamList/src",
+  "pattern": "LinearGradient|primary_cta|primary_container",
+  "topFiles": [
+    {
+      "matchCount": 7,
+      "uri": "src/screens/WatchlistScreen.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "src/components/watchlist/WatchlistSimilarRow.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "src/components/watchlist/WatchlistCard.tsx"
+    },
+    {
+      "matchCount": 10,
+      "uri": "src/screens/DetailScreen.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "src/components/common/ContentCard.tsx"
+    },
+    {
+      "matchCount": 6,
+      "uri": "src/components/home/HeroFeaturedCard.tsx"
+    },
+    {
+      "matchCount": 6,
+      "uri": "src/screens/SearchScreen.tsx"
+    },
+    {
+      "matchCount": 2,
+      "uri": "src/navigation/RootNavigator.tsx"
+    },
+    {
+      "matchCount": 4,
+      "uri": "src/screens/HomeScreen.tsx"
+    },
+    {
+      "matchCount": 2,
+      "uri": "src/components/home/HomeHeader.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "src/components/home/HomeLoadingFooter.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "src/screens/MovieListScreen.tsx"
+    }
+  ],
+  "totalFiles": 12,
+  "totalMatches": 42
+}
+```
+Status: **completed**
 
 
 </details>
@@ -1496,7 +1642,7 @@ Status: **loading**
 _**Agent (composer-2)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: </summary>
+<details><summary>Tool use: **read_file_v2** • Read file: /home/shubham/Streamlist/StreamList/src/components/home/HeroFeaturedCard.tsx</summary>
 
 </details>
 </tool-use>
@@ -1509,7 +1655,7 @@ _**Agent (composer-2)**_
 _**Agent (composer-2)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: </summary>
+<details><summary>Tool use: **read_file_v2** • Read file: /home/shubham/Streamlist/StreamList/src/screens/DetailScreen.tsx</summary>
 
 </details>
 </tool-use>
@@ -1518,3 +1664,764 @@ _**Agent (composer-2)**_
 <summary>Tool use: **read_file_v2**</summary>
 
 </details></tool-use>
+
+_**Agent (composer-2)**_
+
+<think><details><summary>Thought Process</summary>
+**Adding theme colors**
+
+I'm adding `primary_cta_gradient` and `tab_bar_blur_surface` to the theme colors file. I'm adding named exports for `primary_cta_gradient` to avoid duplication. I'm replacing hardcoded hex literals with theme constants for CTA gradients and updating the hero card button to use LinearGradient. 
+
+**Updating blur view props**
+
+I'm updating the BlurView component to use the correct props for iOS and Android compatibility. I'm implementing a layered approach with rgba background and blurAmount=20 for consistent styling. I'm using BlurView with blurAmount 20 and overlaying a semi-transparent rgba(35,35,35,0.70) layer for the bottom nav bar. </details></think>
+
+_**Agent (composer-2)**_
+
+
+
+
+
+
+_**Agent (composer-2)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "*.tsx",
+  "path": "/home/shubham/Streamlist/StreamList/src",
+  "pattern": "Pressable|LinearGradient|primary_cta|Watch Now|Browse"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "/home/shubham/Streamlist/StreamList/src",
+  "pattern": "Pressable|LinearGradient|primary_cta|Watch Now|Browse",
+  "topFiles": [
+    {
+      "matchCount": 15,
+      "uri": "src/screens/WatchlistScreen.tsx"
+    },
+    {
+      "matchCount": 3,
+      "uri": "src/components/watchlist/WatchlistSimilarRow.tsx"
+    },
+    {
+      "matchCount": 5,
+      "uri": "src/components/watchlist/WatchlistCard.tsx"
+    },
+    {
+      "matchCount": 22,
+      "uri": "src/screens/DetailScreen.tsx"
+    },
+    {
+      "matchCount": 3,
+      "uri": "src/components/home/MovieRow.tsx"
+    },
+    {
+      "matchCount": 3,
+      "uri": "src/components/common/ContentCard.tsx"
+    },
+    {
+      "matchCount": 11,
+      "uri": "src/components/home/HeroFeaturedCard.tsx"
+    },
+    {
+      "matchCount": 3,
+      "uri": "src/components/home/GenreChipStrip.tsx"
+    },
+    {
+      "matchCount": 8,
+      "uri": "src/screens/SearchScreen.tsx"
+    },
+    {
+      "matchCount": 3,
+      "uri": "src/components/home/HomeHeader.tsx"
+    }
+  ],
+  "totalFiles": 10,
+  "totalMatches": 76
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: /home/shubham/Streamlist/StreamList/src/screens/ProfileScreen.tsx</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2)**_
+
+<think><details><summary>Thought Process</summary>
+**Creating theme file**
+
+I'm creating `src/theme/primaryCtaGradient.ts` with the specified gradient colors and coordinates. 
+
+**Updating color palette**
+
+I'm adding `r_blur_overlay` to colors.ts as 'rgba(35, 35, 35, 0.70)' and will check BlurView compatibility on Android. I'm using both blur and rgba overlay as requested, understanding that the blur shows through the transparent rgba layer. I'm implementing BlurView with rgba overlay for the background effect. I'm replacing custom gradient implementations with the shared PrimaryCtaGradient component. I'm refactoring gradient implementations to use a shared PrimaryCtaGradient component with LinearGradient wrapper. I'm implementing the PrimaryCtaGradient component with LinearGradient wrapper using imported gradient values. 
+
+I'm fixing the PrimaryCtaGradient component to properly spread gradient colors since primaryCtaGradient.colors is a readonly tuple. I'm removing backgroundColor from watchOuter and using overflow hidden with border radius on Pressable instead. I'm replacing backgroundColor with LinearGradient in Pressable for primary CTA. 
+
+I'm refactoring the gradient styles to use full-width linear layouts and removing duplicate border radius properties. </details></think>
+
+_**Agent (composer-2)**_
+
+
+
+
+
+
+_**Agent (composer-2)**_
+
+<tool-use data-tool-type="search" data-tool-name="glob_file_search">
+<details>
+<summary>Tool use: **glob_file_search** • Searched codebase "" • **5** results in **1** directory</summary>
+
+Directory: **/home/shubham/Streamlist/StreamList/node_modules/@react-native-community/blur** (5 files)
+
+| File |
+|------|
+| `src/components/VibrancyView.android.tsx` |
+| `src/index.tsx` |
+| `src/components/BlurView.ios.tsx` |
+| `src/components/VibrancyView.ios.tsx` |
+| `src/components/BlurView.android.tsx` |
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
+<summary>Tool use: **glob_file_search**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: /home/shubham/Streamlist/StreamList/node_modules/@react-native-community/blur/lib/typescript/index.d.ts</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2)**_
+
+
+
+
+
+
+_**Agent (composer-2)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: /home/shubham/Streamlist/StreamList/node_modules/@react-native-community/blur/src/components/BlurView.android.tsx</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2)**_
+
+<think><details><summary>Thought Process</summary>
+**Setting blur overlay**
+
+I'm adding overlayColor={colors.tab_bar_blur_overlay} to BlurView for Android compatibility while keeping blurAmount. I'm implementing layered approach with separate views for blur and overlay on Android, using absoluteFill and backgroundColor for the solid overlay. 
+
+**Implementing blur view**
+
+I'm implementing TabBarBackground with BlurView and absolute positioning for Android. 
+
+**Updating blur overlay**
+
+I'm adding rgba overlay for the blur effect and updating color tokens. 
+
+**Creating gradient component**
+
+I'm creating a new PrimaryCtaGradient component with linear gradient styling. I'm using spread syntax to convert the gradient colors tuple to an array for LinearGradient compatibility. </details></think>
+
+_**Agent (composer-2)**_
+
+
+
+
+
+
+_**Agent (composer-2)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "*.tsx",
+  "path": "/home/shubham/Streamlist/StreamList/src",
+  "pattern": "primary_cta|primary_container"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "/home/shubham/Streamlist/StreamList/src",
+  "pattern": "primary_cta|primary_container",
+  "topFiles": [
+    {
+      "matchCount": 4,
+      "uri": "src/screens/WatchlistScreen.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "src/components/watchlist/WatchlistSimilarRow.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "src/components/watchlist/WatchlistCard.tsx"
+    },
+    {
+      "matchCount": 5,
+      "uri": "src/screens/DetailScreen.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "src/components/common/ContentCard.tsx"
+    },
+    {
+      "matchCount": 4,
+      "uri": "src/components/home/HeroFeaturedCard.tsx"
+    },
+    {
+      "matchCount": 6,
+      "uri": "src/screens/SearchScreen.tsx"
+    },
+    {
+      "matchCount": 2,
+      "uri": "src/navigation/RootNavigator.tsx"
+    },
+    {
+      "matchCount": 4,
+      "uri": "src/screens/HomeScreen.tsx"
+    },
+    {
+      "matchCount": 2,
+      "uri": "src/components/home/HomeHeader.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "src/components/home/HomeLoadingFooter.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "src/screens/MovieListScreen.tsx"
+    }
+  ],
+  "totalFiles": 12,
+  "totalMatches": 32
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2)**_
+
+<think><details><summary>Thought Process</summary>
+**Updating blur view**
+
+I'm simplifying the BlurView implementation by removing platform-specific overlayColor and using a separate overlay View with rgba color. </details></think>
+
+_**Agent (composer-2)**_
+
+
+
+
+
+
+_**Agent (composer-2)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: /home/shubham/Streamlist/StreamList/node_modules/@react-native-community/blur/src/components/BlurView.android.tsx</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2)**_
+
+<think><details><summary>Thought Process</summary>
+**Implementing overlay**
+
+I'm implementing the Android overlay using getOverlayColor() for consistent dark overlay behavior. I'm adjusting the overlay styles to use flex 1 and absolute positioning for proper gradient filling. 
+
+**Adjusting overlay styles**
+
+I'm removing duplicate border radius and replacing LinearGradient with PrimaryCtaGradient in DetailScreen. </details></think>
+
+_**Agent (composer-2)**_
+
+
+Adding shared gradient tokens and a reusable `PrimaryCtaGradient` component, updating all primary CTAs, and implementing the tab bar with `BlurView` plus the specified overlay.
+
+
+
+_**Agent (composer-2)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/theme/colors.ts</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/theme/primaryCtaGradient.ts</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/components/common/PrimaryCtaGradient.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2)**_
+
+
+
+
+
+
+_**Agent (composer-2)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: /home/shubham/Streamlist/StreamList/src/screens/WatchlistScreen.tsx</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: /home/shubham/Streamlist/StreamList/src/screens/DetailScreen.tsx</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2)**_
+
+<think><details><summary>Thought Process</summary>
+**Updating gradient components**
+
+I'm replacing LinearGradient with PrimaryCtaGradient across multiple screens and removing outdated imports. I'm replacing LinearGradient with PrimaryCtaGradient on the watchlist button while preserving backdrop scrim imports. I'm merging watchInner styles into the gradient component to eliminate unnecessary wrapper views. I'm adjusting the gradient component to support horizontal button layouts with flex 1 styling. I'm refactoring the gradient component to use Pressable for the outer wrapper with flex 1 styling. </details></think>
+
+_**Agent (composer-2)**_
+
+
+
+
+
+
+_**Agent (composer-2)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/screens/WatchlistScreen.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/screens/WatchlistScreen.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/components/home/HeroFeaturedCard.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/components/home/HeroFeaturedCard.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/screens/DetailScreen.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/components/home/HeroFeaturedCard.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/navigation/RootNavigator.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2)**_
+
+Invalid arguments
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/navigation/RootNavigator.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2)**_
+
+
+
+
+
+
+_**Agent (composer-2)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: /home/shubham/Streamlist/StreamList/src/screens/DetailScreen.tsx</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2)**_
+
+<think><details><summary>Thought Process</summary>
+**Checking imports**
+
+I verified the import path for `PrimaryCtaGradient` in `HeroFeaturedCard` and corrected the relative path. </details></think>
+
+_**Agent (composer-2)**_
+
+
+
+
+
+
+_**Agent (composer-2)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: /home/shubham/Streamlist/StreamList/src/screens/WatchlistScreen.tsx</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="read_lints">
+<details>
+<summary>Tool use: **read_lints**</summary>
+
+
+Parameters:
+
+```json
+{
+  "paths": [
+    "/home/shubham/Streamlist/StreamList/src/screens/WatchlistScreen.tsx",
+    "/home/shubham/Streamlist/StreamList/src/components/home/HeroFeaturedCard.tsx",
+    "/home/shubham/Streamlist/StreamList/src/navigation/RootNavigator.tsx",
+    "/home/shubham/Streamlist/StreamList/src/components/common/PrimaryCtaGradient.tsx",
+    "/home/shubham/Streamlist/StreamList/src/screens/DetailScreen.tsx"
+  ]
+}
+```
+Result:
+
+```json
+{
+  "linterErrorsByFile": [
+    {
+      "relativeWorkspacePath": "/home/shubham/Streamlist/StreamList/src/screens/WatchlistScreen.tsx"
+    },
+    {
+      "relativeWorkspacePath": "/home/shubham/Streamlist/StreamList/src/components/home/HeroFeaturedCard.tsx"
+    },
+    {
+      "relativeWorkspacePath": "/home/shubham/Streamlist/StreamList/src/navigation/RootNavigator.tsx"
+    },
+    {
+      "relativeWorkspacePath": "/home/shubham/Streamlist/StreamList/src/components/common/PrimaryCtaGradient.tsx"
+    },
+    {
+      "relativeWorkspacePath": "/home/shubham/Streamlist/StreamList/src/screens/DetailScreen.tsx"
+    }
+  ]
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="read_lints"><details>
+<summary>Tool use: **read_lints**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2)**_
+
+<think><details><summary>Thought Process</summary>
+**Running lint checks**
+
+I'm running eslint and tsc on the modified files to ensure code quality. 
+
+**Adjusting blur view overlay**
+
+I'm adding `overlayColor='transparent'` to BlurView on Android to prevent stacked dark overlays. </details></think>
+
+_**Agent (composer-2)**_
+
+
+
+
+
+
+_**Agent (composer-2)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: cd /home/shubham/Streamlist/StreamList && npx eslint src/navigation/RootNavigator.tsx src/components/common/PrimaryCtaGradient.tsx src/theme/primaryCtaGradient.ts src/components/home/HeroFeaturedCard.tsx src/screens/WatchlistScreen.tsx src/screens/DetailScreen.tsx 2>&1</summary>
+
+```bash
+cd /home/shubham/Streamlist/StreamList && npx eslint src/navigation/RootNavigator.tsx src/components/common/PrimaryCtaGradient.tsx src/theme/primaryCtaGradient.ts src/components/home/HeroFeaturedCard.tsx src/screens/WatchlistScreen.tsx src/screens/DetailScreen.tsx 2>&1
+```
+
+```
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+
+```
+</details>
+</tool-use>
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2)**_
+
+<think><details><summary>Thought Process</summary>
+**Verifying native linking**
+
+Native linking for blur is already handled in package.json; iOS requires pod install. </details></think>
+
+_**Agent (composer-2)**_
+
+
+
+
+
+
+_**Agent (composer-2)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: /home/shubham/Streamlist/StreamList/src/components/home/HeroFeaturedCard.tsx</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2)**_
+
+
+Here’s what was implemented:
+
+### Primary CTA gradient (app-wide)
+- Added [`src/theme/primaryCtaGradient.ts`](src/theme/primaryCtaGradient.ts) with `colors: [colors.primary, colors.primary_container]` (`#FFB3AE` → `#FF5351`), `start: {x: 0, y: 0}`, `end: {x: 1, y: 1}`.
+- Added [`src/components/common/PrimaryCtaGradient.tsx`](src/components/common/PrimaryCtaGradient.tsx) wrapping `react-native-linear-gradient` with those props.
+- **Watchlist** — “Browse Trending Now” uses `PrimaryCtaGradient` (replaces the old primary → secondary gradient).
+- **Home hero** — “Watch Now” uses `PrimaryCtaGradient` inside the pressable (replaces solid `primary_cta`).
+- **Detail** — “Add to Watchlist” uses `PrimaryCtaGradient` (replaces inline hex on `LinearGradient`).
+
+### Bottom tab bar
+- [`src/navigation/RootNavigator.tsx`](src/navigation/RootNavigator.tsx): `TabBarBackground` is now `BlurView` (`blurType="dark"`, `blurAmount={20}`, `reducedTransparencyFallbackColor={colors.tab_bar_blur_overlay}`) plus a full-screen tint view.
+- [`src/theme/colors.ts`](src/theme/colors.ts): `tab_bar_blur_overlay: 'rgba(35, 35, 35, 0.70)'` (hex/rgba only in the theme file).
+
+`tabBarStyle` stays `backgroundColor: 'transparent'` so the custom background shows through.
+
+If the blur doesn’t show on a device until a native rebuild, run `pod install` in `ios` and rebuild the app.

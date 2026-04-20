@@ -242,4 +242,819 @@ _**Agent (composer-2-fast)**_
 <think><details><summary>Thought Process</summary>
 **Enhancing client error handling**
 
-I'm adding normalized error shapes with { message, status } to the client.ts response interceptor. I'm implementing</details></think>
+I'm adding normalized error shapes with { message, status } to the client.ts response interceptor. I'm implementing an ApiError class that extends Error for proper error handling with message and status properties. I'm implementing retry logic in the response interceptor for network errors while avoiding external dependencies. I'm adding retry logic to the response interceptor and attaching normalized errors on reject. I'm implementing ApiClientError class to normalize API error responses. I'm subclassing Error for ApiClientError to ensure instanceof checks work properly with hook error handling. 
+
+**Refactoring data hooks**
+
+I'm refactoring useHome to return a single data object matching the expected shape for data-fetching hooks. I'm adjusting useSearch hook to match the consistent shape with data, loading, and error properties. I'm adding refetch to useSearch hook to match the consistent shape requirement. </details></think>
+
+_**Agent (composer-2-fast)**_
+
+Reading screen components to update destructuring.
+
+
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: /home/shubham/Streamlist/StreamList/src/screens/HomeScreen.tsx</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: /home/shubham/Streamlist/StreamList/src/screens/DetailScreen.tsx</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: /home/shubham/Streamlist/StreamList/src/screens/SearchScreen.tsx</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: /home/shubham/Streamlist/StreamList/src/api/types.ts</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<think><details><summary>Thought Process</summary>
+**Implementing client ts**
+
+I'm implementing client.ts with retry count augmentation, error normalization, and custom error class for Axios v1. I'm adding proper typing for retry count in Axios config and implementing network error detection logic. 
+
+I'm updating the retry logic to only retry on true network failures (no response) and skipping retries for HTTP errors and cancelled requests. 
+
+**Exporting client ts**
+
+I'm exporting client as default and ApiClientError for type guards in hooks. I'm adding a `getErrorMessage(err)` helper to normalize error handling. I'm adjusting useSearch to return UseQueryResult<Movie[]> with proper null/empty array handling for empty queries. </details></think>
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="search" data-tool-name="glob_file_search">
+<details>
+<summary>Tool use: **glob_file_search** • Searched codebase "" • **1** result in **1** directory</summary>
+
+Directory: **/home/shubham/Streamlist/StreamList** (1 file)
+
+| File |
+|------|
+| `__tests__/App.test.tsx` |
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
+<summary>Tool use: **glob_file_search**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: /home/shubham/Streamlist/StreamList/package.json</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<think><details><summary>Thought Process</summary>
+**Adding unit test**
+
+I'm adding a unit test for `normalizeError` by exporting `normalizeAxiosError` for easier testing. I'm extracting `normalizeAxiosError` from the client module to enable simpler unit testing. 
+
+**Extracting error handler**
+
+I'm moving `normalizeAxiosError` to `src/api/error.ts` to simplify unit testing while keeping the API surface minimal. 
+
+**Moving error handler**
+
+I'm extracting normalizeAxiosError to src/api/normalizeError.ts as a pure function with dedicated tests. 
+
+**Exporting error normalizer**
+
+I'm exporting `normalizeAxiosError` from client.ts to make it available for direct use. I'm exporting `toApiClientError` from client.ts to handle error normalization in interceptors and tests. 
+
+I'm implementing the `ApiClientError` class with `message` and `status` properties for consistent error handling. I'm adding a network failure detection helper to identify cases where no HTTP response was received. I'm handling Axios errors by extracting status and message from response data. 
+
+I'm adding Axios request interceptor to track retry counts. I'm implementing retry logic in the Axios error handler with network failure detection. 
+
+I'm fixing the retry logic to properly handle retry counts and rejection conditions. I'm handling undefined retry counts by initializing to 0 and including TMDB status messages in error normalization. I'm handling TMDB error responses with flexible shapes, prioritizing `status_message` while falling back to `error.message`. 
+
+**Handling search state**
+
+I'm clarifying search data behavior: clearing data when query clears, keeping stale results during debounced loading. I'm ensuring consistent initial states across search hooks and adding loading indicators where needed. I'm handling null data cases in SearchScreen by using optional chaining and nullish coalescing for safe length access. 
+
+I'm implementing retry logic with type assertions to avoid module augmentation and ensure full request config is passed on retry. I'm verifying axios retry behavior and considering exporting ApiClientError from client.ts for hooks. </details></think>
+
+_**Agent (composer-2-fast)**_
+
+Implementing the API client with retry and normalized errors, adding `UseQueryResult`, and updating hooks and screens.
+
+
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/hooks/types.ts</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/api/client.ts</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<think><details><summary>Thought Process</summary>
+**Updating hooks**
+
+I'm updating hooks to use UseQueryResult and ApiClientError for consistent error handling. I'm ensuring loading states and data consistency during debounced searches by preserving stale data until new data arrives. </details></think>
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/hooks/useHome.ts</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/hooks/useMovieDetail.ts</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/hooks/useSearch.ts</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<think><details><summary>Thought Process</summary>
+**Handling search state**
+
+I'm adjusting the search behavior to preserve previous results during loading instead of clearing them. I'm preserving previous search results on error to maintain consistency with old behavior. I'm resetting movie data when movieId changes to prevent showing stale details from previous requests. I'm adding `setData(null)` at the start of fetchDetail to clear stale data when movieId changes, improving UX during navigation. I'm refactoring the data fetching to reset state in useEffect before calling fetchDetail, ensuring clean transitions when movieId changes. I'm adding useEffect to clear data and error states when movieId changes to avoid stale data during transitions. </details></think>
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/screens/HomeScreen.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/screens/DetailScreen.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/screens/SearchScreen.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/screens/HomeScreen.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+Invalid arguments:
+old_string: Required
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: /home/shubham/Streamlist/StreamList/src/screens/HomeScreen.tsx</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: /home/shubham/Streamlist/StreamList/src/screens/SearchScreen.tsx</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<think><details><summary>Thought Process</summary>
+**Fixing search screen**
+
+I'm updating the SearchScreen to handle null data properly using optional chaining: `data?.length`. I'm implementing null data handling in SearchScreen with optional chaining and asserting data exists after successful fetch. </details></think>
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/screens/SearchScreen.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/screens/HomeScreen.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/screens/HomeScreen.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<think><details><summary>Thought Process</summary>
+**Handling error states**
+
+I'm clarifying the error handling logic to ensure proper display of errors versus missing data states. I'm clarifying how error and data states interact during loading and fetch failures. I'm implementing logic to preserve stale data when showing error states after successful loads. 
+
+I'm fixing the error display logic to show error messages instead of 'No data available' when errors exist. </details></think>
+
+_**Agent (composer-2-fast)**_
+
+Adding tests for `toApiClientError` and running lint and typecheck.
+
+
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/__tests__/api/client.test.ts</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: cd /home/shubham/Streamlist/StreamList && npx tsc --noEmit 2>&1</summary>
+
+```bash
+cd /home/shubham/Streamlist/StreamList && npx tsc --noEmit 2>&1
+```
+
+```
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+__tests__/api/client.test.ts(12,7): error TS2322: Type 'InternalAxiosRequestConfig&lt;any&gt; | undefined' is not assignable to type 'InternalAxiosRequestConfig&lt;any&gt;'.
+  Type 'undefined' is not assignable to type 'InternalAxiosRequestConfig&lt;any&gt;'.
+__tests__/api/client.test.ts(27,7): error TS2322: Type 'InternalAxiosRequestConfig&lt;any&gt; | undefined' is not assignable to type 'InternalAxiosRequestConfig&lt;any&gt;'.
+  Type 'undefined' is not assignable to type 'InternalAxiosRequestConfig&lt;any&gt;'.
+
+```
+</details>
+</tool-use>
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: cd /home/shubham/Streamlist/StreamList && npm run lint 2>&1</summary>
+
+```bash
+cd /home/shubham/Streamlist/StreamList && npm run lint 2>&1
+```
+
+```
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+
+&gt; StreamList@0.0.1 lint
+&gt; eslint .
+
+
+/home/shubham/Streamlist/StreamList/src/api/client.ts
+  2:3  error  'AxiosError' is defined but never used  @typescript-eslint/no-unused-vars
+
+/home/shubham/Streamlist/StreamList/src/hooks/useHome.ts
+  41:5  warning  Expected 'undefined' and instead saw 'void'  no-void
+
+/home/shubham/Streamlist/StreamList/src/hooks/useMovieDetail.ts
+  30:5  warning  Expected 'undefined' and instead saw 'void'  no-void
+
+/home/shubham/Streamlist/StreamList/src/hooks/useSearch.ts
+  45:7  warning  Expected 'undefined' and instead saw 'void'  no-void
+  55:5  warning  Expected 'undefined' and instead saw 'void'  no-void
+
+/home/shubham/Streamlist/StreamList/src/navigation/RootNavigator.tsx
+  43:21  warning  Do not define components during render. React will see a new component type on every render and destroy the entire subtree’s DOM nodes and state (https://reactjs.org/docs/reconciliation.html#elements-of-different-types). Instead, move this component definition out of the parent component “TabsScreen” and pass data as props. If you want to allow component creation in props, set allowAsProps option to true  react/no-unstable-nested-components
+
+/home/shubham/Streamlist/StreamList/src/screens/SearchScreen.tsx
+  3:3  error  'View' is defined but never used  @typescript-eslint/no-unused-vars
+
+✖ 7 problems (2 errors, 5 warnings)
+
+
+```
+</details>
+</tool-use>
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: cd /home/shubham/Streamlist/StreamList && npm test -- --passWithNoTests 2>&1</summary>
+
+```bash
+cd /home/shubham/Streamlist/StreamList && npm test -- --passWithNoTests 2>&1
+```
+
+```
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+
+&gt; StreamList@0.0.1 test
+&gt; jest --passWithNoTests
+
+PASS __tests__/api/client.test.ts
+FAIL __tests__/App.test.tsx
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/shubham/Streamlist/StreamList/node_modules/@react-navigation/native/lib/module/index.js:3
+    export { createStaticNavigation } from "./createStaticNavigation.js";
+    ^^^^^^
+
+    SyntaxError: Unexpected token 'export'
+
+      2 | import {StatusBar} from 'react-native';
+      3 | import {SafeAreaProvider} from 'react-native-safe-area-context';
+    &gt; 4 | import {NavigationContainer} from '@react-navigation/native';
+        | ^
+      5 | import RootNavigator from './src/navigation/RootNavigator';
+      6 | import {colors} from './src/theme/colors';
+      7 |
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (App.tsx:4:1)
+      at Object.require (__tests__/App.test.tsx:7:1)
+
+Test Suites: 1 failed, 1 passed, 2 total
+Tests:       4 passed, 4 total
+Snapshots:   0 total
+Time:        1.509 s, estimated 5 s
+Ran all test suites.
+
+```
+</details>
+</tool-use>
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<think><details><summary>Thought Process</summary>
+**Fixing imports**
+
+I'm removing unused AxiosError import and using as any for config in tests. I'm replacing void operators with `.catch(() => {})` for fire-and-forget promises to avoid no-void linting errors. I'm changing void operators to .catch(() => {}) for fire-and-forget promises to satisfy linting rules. I'm adding `.catch(() => {})` to async fire-and-forget operations to satisfy linting rules. 
+
+**Handling error states**
+
+I'm implementing conditional rendering logic to handle success vs error states properly. </details></think>
+
+_**Agent (composer-2-fast)**_
+
+Fixing lint and test TypeScript errors.
+
+
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/api/client.ts</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/screens/SearchScreen.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/hooks/useHome.ts</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/hooks/useMovieDetail.ts</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/hooks/useSearch.ts</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/__tests__/api/client.test.ts</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/hooks/useSearch.ts</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/__tests__/api/client.test.ts</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: cd /home/shubham/Streamlist/StreamList && npx tsc --noEmit && npm run lint 2>&1</summary>
+
+```bash
+cd /home/shubham/Streamlist/StreamList && npx tsc --noEmit && npm run lint 2>&1
+```
+
+```
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+
+&gt; StreamList@0.0.1 lint
+&gt; eslint .
+
+
+/home/shubham/Streamlist/StreamList/src/navigation/RootNavigator.tsx
+  43:21  warning  Do not define components during render. React will see a new component type on every render and destroy the entire subtree’s DOM nodes and state (https://reactjs.org/docs/reconciliation.html#elements-of-different-types). Instead, move this component definition out of the parent component “TabsScreen” and pass data as props. If you want to allow component creation in props, set allowAsProps option to true  react/no-unstable-nested-components
+
+✖ 1 problem (0 errors, 1 warning)
+
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+
+```
+</details>
+</tool-use>
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="read_lints">
+<details>
+<summary>Tool use: **read_lints**</summary>
+
+
+Parameters:
+
+```json
+{
+  "paths": [
+    "/home/shubham/Streamlist/StreamList/src/api/client.ts",
+    "/home/shubham/Streamlist/StreamList/src/hooks/useHome.ts",
+    "/home/shubham/Streamlist/StreamList/src/hooks/useSearch.ts",
+    "/home/shubham/Streamlist/StreamList/src/screens/HomeScreen.tsx"
+  ]
+}
+```
+Result:
+
+```json
+{
+  "linterErrorsByFile": [
+    {
+      "relativeWorkspacePath": "/home/shubham/Streamlist/StreamList/src/api/client.ts"
+    },
+    {
+      "relativeWorkspacePath": "/home/shubham/Streamlist/StreamList/src/hooks/useHome.ts"
+    },
+    {
+      "relativeWorkspacePath": "/home/shubham/Streamlist/StreamList/src/hooks/useSearch.ts"
+    },
+    {
+      "relativeWorkspacePath": "/home/shubham/Streamlist/StreamList/src/screens/HomeScreen.tsx"
+    }
+  ]
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="read_lints"><details>
+<summary>Tool use: **read_lints**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2-fast)**_
+
+<think><details><summary>Thought Process</summary>
+**Exporting client utilities**
+
+I'm exporting client.ts utilities to match movies.ts usage pattern. </details></think>
+
+_**Agent (composer-2-fast)**_
+
+Here’s what was implemented and how it fits your rules.
+
+### `src/api/client.ts`
+- **Single Axios instance** with your existing base URL, timeout, and JSON headers.
+- **Request interceptor** – still sets `Authorization: Bearer ${TMDB_ACCESS_TOKEN}` when the env value is present.
+- **Response error path** – failures are turned into **`ApiClientError`**, a real `Error` with **`message`** and **`status`** (`null` when there is no HTTP response, e.g. true network failures). TMDB’s `status_message` is used when present.
+- **Retry** – if `error.response` is **undefined** (no4xx/5xx body), **one** retry is done by reissuing the same config with a `__retryCount` guard. Canceled requests are not retried.
+- **`toApiClientError`** is exported for tests and any future use.
+
+### Hooks (`UseQueryResult<T>`)
+- Added **`src/hooks/types.ts`** with `UseQueryResult<T>`.
+- **`useHome`** → `UseQueryResult<HomeData>` with `data: { trending, topRated } | null`.
+- **`useMovieDetail`** → `UseQueryResult<MovieDetail>`.
+- **`useSearch`** → `UseQueryResult<Movie[]>` plus **`query`** / **`setQuery`**; empty query uses **`data: null`**; **`refetch`** re-runs the current query.
+
+Hooks only import the API layer via **`../api/client`** (for `ApiClientError`) and **`../api/movies`**; **axios stays only in `client.ts`**.
+
+### Screens
+- **HomeScreen** – uses `data` and treats `error || !data` as the failure UI.
+- **DetailScreen** – `data: movie` via alias.
+- **SearchScreen** – `results` → `data`; removed unused imports.
+
+### Tests
+- **`__tests__/api/client.test.ts`** – covers normalization (TMDB message, HTTP status, no-response, idempotent `ApiClientError`).
+
+`npx tsc --noEmit` and `npm run lint` succeed. **`npm test`** still fails on **`App.test.tsx`** because of Jest vs `@react-navigation/native` ESM (existing setup issue); the new **`client.test.ts`** suite passes.
+
+**Files touched:** `src/api/client.ts`, `src/hooks/types.ts`, `src/hooks/useHome.ts`, `src/hooks/useMovieDetail.ts`, `src/hooks/useSearch.ts`, `src/screens/HomeScreen.tsx`, `src/screens/DetailScreen.tsx`, `src/screens/SearchScreen.tsx`, `__tests__/api/client.test.ts`.

@@ -3,7 +3,6 @@ import {useNavigation} from '@react-navigation/native';
 import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
-  ActivityIndicator,
   FlatList,
   Pressable,
   ScrollView,
@@ -18,6 +17,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ContentCard from '../components/common/ContentCard';
 import GenreChipStrip from '../components/home/GenreChipStrip';
+import SearchGridSkeleton from '../components/skeleton/SearchGridSkeleton';
+import SkeletonBox from '../components/skeleton/SkeletonBox';
 import {useRecentSearches} from '../hooks/useRecentSearches';
 import {useSearch} from '../hooks/useSearch';
 import {usePaginatedTrending} from '../hooks/usePaginatedMovies';
@@ -191,11 +192,15 @@ export default function SearchScreen() {
         {showResults ? (
           <>
             {loading && movies.length === 0 && (
-              <View style={styles.centered}>
-                <ActivityIndicator
-                  size="large"
-                  color={colors.primary_container}
-                />
+              <View style={styles.resultsSkeleton}>
+                <View style={styles.resultsHeaderSkeleton}>
+                  <SkeletonBox
+                    width={Math.min(windowWidth * 0.55, spacing['5xl'] * 3)}
+                    height={spacing.md}
+                    borderRadius={spacing.xs}
+                  />
+                </View>
+                <SearchGridSkeleton />
               </View>
             )}
 
@@ -274,12 +279,7 @@ export default function SearchScreen() {
                 <Text style={styles.sectionTitle}>Trending Now</Text>
               </View>
               {trending.loading && trending.movies.length === 0 ? (
-                <View style={styles.trendingLoading}>
-                  <ActivityIndicator
-                    size="large"
-                    color={colors.primary_container}
-                  />
-                </View>
+                <SearchGridSkeleton />
               ) : (
                 <View style={styles.trendingGrid}>
                   {trendingRows.map((row, rowIdx) => (
@@ -406,9 +406,13 @@ const styles = StyleSheet.create({
     ...typography.body_md,
     color: colors.on_surface,
   },
-  trendingLoading: {
-    paddingVertical: spacing.xl,
-    alignItems: 'center',
+  resultsSkeleton: {
+    flex: 1,
+  },
+  resultsHeaderSkeleton: {
+    paddingHorizontal: spacing.md,
+    paddingTop: spacing.md,
+    marginBottom: spacing.sm,
   },
   trendingGrid: {
     paddingHorizontal: spacing.md,

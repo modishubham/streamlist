@@ -12,7 +12,6 @@ On @src/screens/WatchlistScreen.tsx browse trending now button should have 16px 
 
 _**Agent (composer-2)**_
 
-
 Updating WatchlistScreen styling: reading the screen, theme tokens, and related components.
 
 
@@ -91,7 +90,6 @@ I'm adding md and sm radius tokens for the filter row styling. I'm implementing 
 I'm implementing the filter bar styles with rounded corners and proper spacing. I'm updating the filter tab styles to use `surface_bright` as the background color. I'm changing the active tab style to match the UI spec's dark red background (secondary_container) instead of the previous surface_bright. I'm replacing the gradient with View and using on_surface for CTA text color. I'm using `on_surface` for white CTA text to comply with user's explicit request for white text, despite the theme lacking a white color. </details></think>
 
 _**Agent (composer-2)**_
-
 
 Checking how other CTAs handle text color and whether `radius` is used elsewhere:
 
@@ -274,7 +272,6 @@ I'm adding a composed style for bold, larger text using Manrope-Bold at 16px fon
 
 _**Agent (composer-2)**_
 
-
 Adding `radius.sm` (12) and `radius.md` (16) to the theme, replacing the gradient with solid `primary_cta`, and restructuring the filter into a full-width bar with segmented tabs per the UI.
 
 
@@ -378,13 +375,6 @@ I'm implementing the UI design with `on_surface` color for text and transparent 
 
 _**Agent (composer-2)**_
 
-
-
-
-
-
-_**Agent (composer-2)**_
-
 <tool-use data-tool-type="unknown" data-tool-name="read_lints">
 <details>
 <summary>Tool use: **read_lints**</summary>
@@ -455,7 +445,6 @@ I'm using `colors.on_surface` (#E5E2E1) for button text instead of pure white, a
 
 _**Agent (composer-2)**_
 
-
 Here’s what was implemented:
 
 ### Browse Trending Now
@@ -486,8 +475,15 @@ For the tabs on @src/screens/WatchlistScreen.tsx  tabs should not cetered aligne
 
 _**Agent (composer-2)**_
 
+
+Reading `WatchlistCard.tsx` and the tabs section in `WatchlistScreen.tsx`.
+
+
+
+_**Agent (composer-2)**_
+
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: </summary>
+<details><summary>Tool use: **read_file_v2** • Read file: /home/shubham/Streamlist/StreamList/src/components/watchlist/WatchlistCard.tsx</summary>
 
 </details>
 </tool-use>
@@ -500,7 +496,7 @@ _**Agent (composer-2)**_
 _**Agent (composer-2)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: </summary>
+<details><summary>Tool use: **read_file_v2** • Read file: /home/shubham/Streamlist/StreamList/src/screens/WatchlistScreen.tsx</summary>
 
 </details>
 </tool-use>
@@ -512,8 +508,24 @@ _**Agent (composer-2)**_
 
 _**Agent (composer-2)**_
 
+<think><details><summary>Thought Process</summary>
+**Updating watchlist card**
+
+I'm updating the WatchlistCard component to remove the absolute remove button and add a title row with proper styling using theme colors. I'm using spacing.lg (20) for borderRadius to match the mock and avoid hardcoded pixels. I'm implementing rounded corners for the poster wrapper using borderTopLeftRadius and borderTopRightRadius to match the design. I'm restructuring the card layout to achieve rounded top corners by separating the poster wrapper with its own border-radius from the main card. 
+
+I'm adjusting the remove button positioning to be relative within the title row instead of absolute, with a minimal thin white X icon styling. </details></think>
+
+_**Agent (composer-2)**_
+
+
+
+
+
+
+_**Agent (composer-2)**_
+
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: </summary>
+<details><summary>Tool use: **read_file_v2** • Read file: /home/shubham/Streamlist/StreamList/src/screens/WatchlistScreen.tsx</summary>
 
 </details>
 </tool-use>
@@ -522,14 +534,32 @@ _**Agent (composer-2)**_
 <summary>Tool use: **read_file_v2**</summary>
 
 </details></tool-use>
+
+_**Agent (composer-2)**_
+
+<think><details><summary>Thought Process</summary>
+**Updating watchlist card**
+
+I'm adding card background with `colors.surface_container` and adjusting padding and border radius. I'm adjusting the poster wrapper to match the card's rounded corners by setting borderRadius to spacing.lg and using overflow: 'hidden' with backgroundColor surface_container. 
+
+**Adjusting poster wrapper**
+
+I'm setting the poster's border radius to match the card's rounded corners using spacing.lg and overflow: 'hidden' to ensure the corners align properly. I'm implementing a semi-transparent black pill effect for the rating badge using `colors.rating_chip_bg` with `rgba(0,0,0,0.6)` as a fallback. 
+
+I'll leave the rating badge unchanged since no theme token was provided, and implement a thin X icon for the remove button with centered title row layout. I'm adding radius import to WatchlistCard and implementing centered title row layout. I'm implementing the centered title row layout with proper spacing and styling. I'm removing the separate background color from poster wrapper since the image will fill it, and adjusting styles for placeholder state. I'm removing duplicate marginTop from titleRow and adjusting filter tab styles with paddingHorizontal and removing flex: 1. </details></think>
+
+_**Agent (composer-2)**_
+
+
+Implementing: restructuring `WatchlistCard` with a card shell and title row; left-aligning filter tabs by removing `flex: 1` and using `justifyContent: 'flex-start'`.
+
+
 
 _**Agent (composer-2)**_
 
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2">
 
 <details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/components/watchlist/WatchlistCard.tsx</summary>
-
-Status: **loading**
 
 </details>
 
@@ -546,8 +576,6 @@ _**Agent (composer-2)**_
 
 <details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/components/watchlist/WatchlistCard.tsx</summary>
 
-Status: **loading**
-
 </details>
 
 </tool-use>
@@ -563,8 +591,6 @@ _**Agent (composer-2)**_
 
 <details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/components/watchlist/WatchlistCard.tsx</summary>
 
-Status: **loading**
-
 </details>
 
 </tool-use>
@@ -579,8 +605,6 @@ _**Agent (composer-2)**_
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2">
 
 <details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/components/watchlist/WatchlistCard.tsx</summary>
-
-Status: **loading**
 
 </details>
 
@@ -597,7 +621,38 @@ _**Agent (composer-2)**_
 
 <details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/screens/WatchlistScreen.tsx</summary>
 
-Status: **loading**
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2)**_
+
+<think><details><summary>Thought Process</summary>
+**Checking color palette**
+
+I confirmed `surface_container_low` exists in colors.ts for the poster placeholder area. 
+
+**Adjusting card layout**
+
+I'm adjusting the card layout to handle spacing between title row, subtitle, and details using margin and gap spacing. I'm removing marginTop from detailsBtn and relying on cardBody gap for spacing. I'm adjusting the card layout by removing the gap between elements and using targeted margins instead. I'm adjusting the card layout by setting `cardBody` gap to `spacing.xxs` and `detailsBtn` margin top to `spacing.xs`. I'm adjusting the card layout to match the original by using `spacing.sm` for margins and gaps. </details></think>
+
+_**Agent (composer-2)**_
+
+
+Restoring vertical spacing: the original layout used more space before the Details button.
+
+
+
+_**Agent (composer-2)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/components/watchlist/WatchlistCard.tsx</summary>
 
 </details>
 
@@ -614,8 +669,6 @@ _**Agent (composer-2)**_
 
 <details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/components/watchlist/WatchlistCard.tsx</summary>
 
-Status: **loading**
-
 </details>
 
 </tool-use>
@@ -627,20 +680,10 @@ Status: **loading**
 
 _**Agent (composer-2)**_
 
-<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
 
-<details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/components/watchlist/WatchlistCard.tsx</summary>
 
-Status: **loading**
 
-</details>
 
-</tool-use>
-
-<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
-<summary>Tool use: **edit_file_v2**</summary>
-
-</details></tool-use>
 
 _**Agent (composer-2)**_
 
@@ -648,7 +691,32 @@ _**Agent (composer-2)**_
 <details>
 <summary>Tool use: **read_lints**</summary>
 
-Status: **loading**
+
+Parameters:
+
+```json
+{
+  "paths": [
+    "/home/shubham/Streamlist/StreamList/src/components/watchlist/WatchlistCard.tsx",
+    "/home/shubham/Streamlist/StreamList/src/screens/WatchlistScreen.tsx"
+  ]
+}
+```
+Result:
+
+```json
+{
+  "linterErrorsByFile": [
+    {
+      "relativeWorkspacePath": "/home/shubham/Streamlist/StreamList/src/components/watchlist/WatchlistCard.tsx"
+    },
+    {
+      "relativeWorkspacePath": "/home/shubham/Streamlist/StreamList/src/screens/WatchlistScreen.tsx"
+    }
+  ]
+}
+```
+Status: **completed**
 
 
 </details>
@@ -662,8 +730,16 @@ Status: **loading**
 _**Agent (composer-2)**_
 
 <tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
-<details><summary>Tool use: **run_terminal_command_v2**</summary>
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: cd /home/shubham/Streamlist/StreamList && npx tsc --noEmit 2>&1 | head -30</summary>
 
+```bash
+cd /home/shubham/Streamlist/StreamList && npx tsc --noEmit 2>&1 | head -30
+```
+
+```
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+
+```
 </details>
 </tool-use>
 
@@ -674,11 +750,16 @@ _**Agent (composer-2)**_
 
 _**Agent (composer-2)**_
 
+
+
+
+
+
+_**Agent (composer-2)**_
+
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2">
 
 <details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/screens/WatchlistScreen.tsx</summary>
-
-Status: **loading**
 
 </details>
 
@@ -688,3 +769,19 @@ Status: **loading**
 <summary>Tool use: **edit_file_v2**</summary>
 
 </details></tool-use>
+
+_**Agent (composer-2)**_
+
+
+Here’s what changed:
+
+### `WatchlistCard.tsx`
+- **Remove control:** The close control is no longer on the poster. It sits in a **title row** with `flexDirection: 'row'`: title uses `flex: 1` (truncates with `numberOfLines={1}`), close is on the **right** with default padding and `surface_bright` when pressed (per your pressed-state rule).
+- **Rating:** Still only on the poster, top-right (unchanged).
+- **Card chrome:** The whole block uses `backgroundColor: colors.surface_container`, `borderRadius: spacing.lg` (20), and `overflow: 'hidden'` so the poster follows the top curve. Poster area uses `colors.surface_container_low` as the base behind the image/placeholder.
+- **Details button:** `borderRadius: radius.sm` (12) to align with your tab/button spec.
+
+### `WatchlistScreen.tsx`
+- **Tabs:** Removed `flex: 1` from each tab so pills are **content-sized**, not stretched. `filterRow` uses `justifyContent: 'flex-start'` so **All / Movies / Series** sit on the **left** with space on the right. Added horizontal padding on each tab so tap targets stay comfortable.
+
+`npx tsc --noEmit` passes.

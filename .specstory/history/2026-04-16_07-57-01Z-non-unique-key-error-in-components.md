@@ -114,8 +114,6 @@ _**Agent (claude-4.6-opus-high-thinking)**_
 
 <details><summary>Tool use: **edit_file_v2** • Edit file: /home/shubham/Streamlist/StreamList/src/hooks/usePaginatedMovies.ts</summary>
 
-Status: **loading**
-
 </details>
 
 </tool-use>
@@ -124,3 +122,51 @@ Status: **loading**
 <summary>Tool use: **edit_file_v2**</summary>
 
 </details></tool-use>
+
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="read_lints">
+<details>
+<summary>Tool use: **read_lints**</summary>
+
+
+Parameters:
+
+```json
+{
+  "paths": [
+    "src/hooks/usePaginatedMovies.ts"
+  ]
+}
+```
+Result:
+
+```json
+{
+  "linterErrorsByFile": [
+    {
+      "relativeWorkspacePath": "src/hooks/usePaginatedMovies.ts"
+    }
+  ]
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="read_lints"><details>
+<summary>Tool use: **read_lints**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.6-opus-high-thinking)**_
+
+No lint issues. Here's a summary of the fix:
+
+**What changed:** `src/hooks/usePaginatedMovies.ts` — the `appendNextPage` function now deduplicates movies before appending them to the list.
+
+**Why:** The TMDB API can return the same movie on different pages. When paginating, the old code blindly concatenated new results onto the existing array, creating duplicate entries with the same `id`. Since `MovieRow`'s FlatList uses `item.id` as the `keyExtractor`, React saw two children with the same key (e.g. `1084187`).
+
+**How:** Before merging new results, we build a `Set` of existing movie IDs and filter out any duplicates from the incoming page. This ensures every movie in the list has a unique ID.

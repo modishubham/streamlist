@@ -1,11 +1,5 @@
 import React, {useCallback} from 'react';
-import {
-  ActivityIndicator,
-  FlatList,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import type {Movie} from '../api/types';
@@ -17,6 +11,8 @@ import {spacing} from '../theme/spacing';
 import {typography} from '../theme/typography';
 import {formatMovieSubtitle} from '../utils/movieDisplay';
 import {useDisplayGenres} from '../hooks/useDisplayGenres';
+import MovieListSkeleton from '../components/skeleton/MovieListSkeleton';
+import SkeletonFooterStrip from '../components/skeleton/SkeletonFooterStrip';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'MovieList'>;
 
@@ -65,8 +61,8 @@ export default function MovieListScreen({route, navigation}: Props) {
 
   if (loading && movies.length === 0) {
     return (
-      <SafeAreaView style={styles.centered} edges={['bottom']}>
-        <ActivityIndicator size="large" color={colors.primary} />
+      <SafeAreaView style={styles.skeletonScreen} edges={['bottom']}>
+        <MovieListSkeleton />
       </SafeAreaView>
     );
   }
@@ -89,11 +85,7 @@ export default function MovieListScreen({route, navigation}: Props) {
         ItemSeparatorComponent={MovieListSeparator}
         onEndReached={onEndReached}
         onEndReachedThreshold={0.35}
-        ListFooterComponent={
-          loadingMore ? (
-            <ActivityIndicator color={colors.primary} style={styles.footer} />
-          ) : null
-        }
+        ListFooterComponent={loadingMore ? <SkeletonFooterStrip /> : null}
       />
     </SafeAreaView>
   );
@@ -117,6 +109,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: spacing.md,
   },
+  skeletonScreen: {
+    flex: 1,
+    backgroundColor: colors.surface,
+  },
   list: {
     padding: spacing.md,
     paddingBottom: spacing['3xl'],
@@ -125,9 +121,6 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: 400,
     alignSelf: 'center',
-  },
-  footer: {
-    marginVertical: spacing.md,
   },
   errorText: {
     ...typography.body_md,

@@ -4,7 +4,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import type {Movie} from '../../api/types';
 import {colors} from '../../theme/colors';
-import {spacing} from '../../theme/spacing';
+import {radius, spacing} from '../../theme/spacing';
 import {typography} from '../../theme/typography';
 import {getImageUrl} from '../../utils/image';
 
@@ -71,19 +71,23 @@ function HeroFeaturedCard({
                 <Pressable
                   onPress={onWatchNow}
                   style={({pressed}) => [
-                    styles.watchOuter,
+                    styles.heroActionWrap,
                     pressed && styles.pressed,
                   ]}
                   accessibilityRole="button"
                   accessibilityLabel="Watch now">
-                  <View style={styles.watchInner}>
+                  <LinearGradient
+                    colors={['#FFB3AE', '#FF5351']}
+                    start={{x: 0, y: 0}}
+                    end={{x: 1, y: 1}}
+                    style={styles.heroWatchGradient}>
                     <Icon
                       name="play-arrow"
                       size={22}
                       color={colors.on_primary_cta}
                     />
                     <Text style={styles.watchText}>Watch Now</Text>
-                  </View>
+                  </LinearGradient>
                 </Pressable>
                 <Pressable
                   onPress={onDetails}
@@ -154,7 +158,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary_container,
     paddingHorizontal: spacing.sm,
     paddingVertical: spacing.xxs,
-    borderRadius: spacing.lg,
+    borderRadius: radius.sm,
     marginBottom: spacing.xs,
   },
   badgeText: {
@@ -179,20 +183,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: spacing.sm,
   },
-  watchOuter: {
+  /** Matches DetailScreen watchlist CTA: fixed height + corner radius. */
+  heroActionWrap: {
     flex: 1,
-    borderRadius: spacing.lg,
-    overflow: 'hidden',
-    backgroundColor: colors.primary_cta,
   },
-  watchInner: {
+  heroWatchGradient: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: spacing.xxs,
-    paddingVertical: spacing.sm,
-    paddingHorizontal: spacing.md,
-    borderRadius: spacing.lg,
+    gap: spacing.xs,
+    height: spacing['4xl'],
+    borderRadius: spacing.xs,
   },
   watchText: {
     ...typography.title_sm,
@@ -200,11 +201,12 @@ const styles = StyleSheet.create({
   },
   detailsBtn: {
     flex: 1,
-    paddingVertical: spacing.sm,
+    height: spacing['4xl'],
     paddingHorizontal: spacing.md,
-    borderRadius: spacing.lg,
+    borderRadius: spacing.xs,
     backgroundColor: colors.details_button_background,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   detailsText: {
     ...typography.title_sm,
