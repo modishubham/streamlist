@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.md,
   },
   label: {
-    ...typography.label_sm,
+    ...typography.home_load_more,
     color: colors.on_surface_variant,
     textTransform: 'uppercase',
     marginTop: spacing.sm,

@@ -1,4 +1,7 @@
 export const colors = {
+  /** Stitch: logo wordmark + active tab accent (theme seed). */
+  brand_accent:              '#E5383B',
+
   // Surfaces
   surface:                   '#131313',
   surface_container_lowest:  '#0E0E0E',
@@ -10,7 +13,11 @@ export const colors = {
 
   // Primary accent (Coral-Red)
   primary:                   '#FFB3AE',
+  /** Text on solid `primary` (Stitch hero “Watch Now”). */
+  on_primary:                '#68000B',
   primary_container:         '#FF5351',
+  /** Text on `primary_container` (e.g. hero “New release” badge). */
+  on_primary_container:      '#5C0008',
   primary_cta:               '#FF5351',
   on_primary_cta:            '#1A0000',
   secondary_container:       '#822625',
@@ -30,6 +37,8 @@ export const colors = {
   genre_chip_active_background: '#822625',
   /** Inactive genre chip text — primary light tint. */
   chip_inactive_text:        '#FFB3AE',
+  /** Stitch inactive chip border (`border-outline-variant/10`). */
+  chip_inactive_border:      'rgba(91, 64, 62, 0.12)',
   hero_scrim_strong:         'rgba(0,0,0,0.55)',
   hero_scrim_soft:           'transparent',
   details_button_background: 'rgba(255,255,255,0.18)',

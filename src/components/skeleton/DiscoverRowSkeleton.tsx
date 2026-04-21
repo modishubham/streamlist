@@ -1,18 +1,14 @@
-import React, {useMemo} from 'react';
+import React from 'react';
 import {Dimensions, StyleSheet, View} from 'react-native';
 import SkeletonBox from './SkeletonBox';
 import SkeletonPosterCard from './SkeletonPosterCard';
-import {spacing} from '../../theme/spacing';
+import {radius, spacing, stitchLayout} from '../../theme/spacing';
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
-const ROW_CARD_COUNT = 2;
+const ROW_CARD_COUNT = 3;
 
 function DiscoverRowSkeleton() {
-  const cardWidth = useMemo(() => {
-    const gap = spacing.md;
-    const pad = spacing.md * 2;
-    return (SCREEN_WIDTH - pad - gap) / 2;
-  }, []);
+  const cardWidth = stitchLayout.posterWidth;
 
   return (
     <View
@@ -23,12 +19,12 @@ function DiscoverRowSkeleton() {
         <SkeletonBox
           width={SCREEN_WIDTH * 0.38}
           height={spacing.lg}
-          borderRadius={spacing.xs}
+          borderRadius={radius.stitchLg}
         />
         <SkeletonBox
           width={spacing['3xl']}
           height={spacing.md}
-          borderRadius={spacing.xs}
+          borderRadius={radius.stitchLg}
         />
       </View>
       <View style={styles.horizontalRow}>
@@ -50,15 +46,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: spacing.md,
+    paddingHorizontal: stitchLayout.screenGutter,
     marginBottom: spacing.sm,
   },
   horizontalRow: {
     flexDirection: 'row',
-    paddingHorizontal: spacing.md,
+    paddingHorizontal: stitchLayout.screenGutter,
   },
   cardGap: {
-    marginLeft: spacing.md,
+    marginLeft: stitchLayout.posterRowGap,
   },
 });
 

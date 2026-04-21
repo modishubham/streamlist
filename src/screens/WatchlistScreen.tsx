@@ -14,6 +14,7 @@ import {
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AppBrandedHeader from '../components/common/AppBrandedHeader';
 import ContentCard from '../components/common/ContentCard';
 import WatchlistCard from '../components/watchlist/WatchlistCard';
 import WatchlistSimilarRow from '../components/watchlist/WatchlistSimilarRow';
@@ -22,7 +23,7 @@ import {usePaginatedTrending} from '../hooks/usePaginatedMovies';
 import {useWatchlistStore} from '../store/watchlistStore';
 import type {RootStackParamList, RootTabParamList} from '../navigation/types';
 import {colors} from '../theme/colors';
-import {spacing, radius} from '../theme/spacing';
+import {radius, spacing, stitchLayout} from '../theme/spacing';
 import {typography} from '../theme/typography';
 import {chunkPairs} from '../utils/chunkPairs';
 type FilterTab = 'all' | 'movies' | 'series';
@@ -97,29 +98,33 @@ export default function WatchlistScreen() {
     <View style={styles.root}>
       {/* ─── Header ──────────────────────────────────────────────────── */}
       <View style={[styles.headerShell, {paddingTop: insets.top}]}>
-        <View style={styles.headerRow}>
-          <View style={styles.brand}>
-            <Icon
-              name="local-fire-department"
-              size={28}
-              color={colors.primary_container}
-            />
-            <Text style={styles.wordmark}>StreamList</Text>
-          </View>
-          <View style={styles.headerActions}>
-            <Pressable
-              onPress={navigateToSearch}
-              style={styles.iconBtn}
-              hitSlop={spacing.xs}
-              accessibilityRole="button"
-              accessibilityLabel="Search">
-              <Icon name="search" size={20} color={colors.on_surface} />
-            </Pressable>
-            <View style={styles.profileIcon}>
-              <Ionicons name="person" size={16} color={colors.on_surface} />
+        <AppBrandedHeader
+          rightSlot={
+            <View style={styles.headerActions}>
+              <Pressable
+                onPress={navigateToSearch}
+                style={styles.iconBtn}
+                hitSlop={spacing.xs}
+                accessibilityRole="button"
+                accessibilityLabel="Search">
+                <Icon
+                  name="search"
+                  size={24}
+                  color={colors.on_surface_variant}
+                />
+              </Pressable>
+              <View
+                style={styles.profileAvatar}
+                accessibilityLabel="Profile">
+                <Icon
+                  name="person"
+                  size={22}
+                  color={colors.on_surface_variant}
+                />
+              </View>
             </View>
-          </View>
-        </View>
+          }
+        />
       </View>
 
       {/* ─── Content ─────────────────────────────────────────────────── */}
@@ -283,43 +288,28 @@ const styles = StyleSheet.create({
     backgroundColor: colors.header_surface,
     zIndex: 10,
   },
-  headerRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-  },
-  brand: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.xs,
-  },
-  wordmark: {
-    ...typography.title_lg,
-    color: colors.primary_container,
-    textTransform: 'uppercase',
-    letterSpacing: 1,
-  },
   headerActions: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.sm,
+    gap: spacing.md,
   },
   iconBtn: {
-    width: spacing['2xl'],
-    height: spacing['2xl'],
-    borderRadius: spacing.md,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  profileIcon: {
-    width: spacing['2xl'],
-    height: spacing['2xl'],
-    borderRadius: spacing.md,
-    backgroundColor: colors.surface_container_high,
+  profileAvatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: colors.surface_container_highest,
+    borderWidth: 2,
+    borderColor: 'rgba(255, 255, 255, 0.12)',
     alignItems: 'center',
     justifyContent: 'center',
+    overflow: 'hidden',
   },
 
   // Scroll
@@ -332,7 +322,7 @@ const styles = StyleSheet.create({
 
   // Heading block
   headingBlock: {
-    paddingHorizontal: spacing.md,
+    paddingHorizontal: stitchLayout.screenGutter,
     marginBottom: spacing.lg,
   },
   collectionLabel: {
@@ -368,7 +358,7 @@ const styles = StyleSheet.create({
   },
   filterTab: {
     paddingVertical: spacing.sm,
-    paddingHorizontal: spacing.md,
+    paddingHorizontal: stitchLayout.screenGutter,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: radius.sm,
@@ -392,7 +382,7 @@ const styles = StyleSheet.create({
   filterEmpty: {
     alignItems: 'center',
     paddingVertical: spacing['3xl'],
-    paddingHorizontal: spacing.md,
+    paddingHorizontal: stitchLayout.screenGutter,
     gap: spacing.md,
   },
   filterEmptyTitle: {
@@ -401,7 +391,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   browseAllChip: {
-    paddingHorizontal: spacing.md,
+    paddingHorizontal: stitchLayout.screenGutter,
     paddingVertical: spacing.xs,
     borderRadius: spacing['2xl'],
     backgroundColor: colors.secondary_container,
@@ -413,7 +403,7 @@ const styles = StyleSheet.create({
 
   // Grid
   grid: {
-    paddingHorizontal: spacing.md,
+    paddingHorizontal: stitchLayout.screenGutter,
     gap: CARD_GAP,
     marginBottom: spacing.xl,
   },
@@ -425,7 +415,7 @@ const styles = StyleSheet.create({
   // Empty state
   emptyBlock: {
     alignItems: 'center',
-    paddingHorizontal: spacing.md,
+    paddingHorizontal: stitchLayout.screenGutter,
     paddingVertical: spacing['2xl'],
     gap: spacing.md,
   },
@@ -467,11 +457,11 @@ const styles = StyleSheet.create({
     color: colors.on_surface_variant,
     textTransform: 'uppercase',
     letterSpacing: 1.5,
-    paddingHorizontal: spacing.md,
+    paddingHorizontal: stitchLayout.screenGutter,
     marginBottom: spacing.md,
   },
   popularGrid: {
-    paddingHorizontal: spacing.md,
+    paddingHorizontal: stitchLayout.screenGutter,
     gap: CARD_GAP,
   },
 });

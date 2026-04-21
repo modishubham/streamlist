@@ -2,7 +2,7 @@ import React, {type ReactElement} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Icon from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import HomeScreen from '../screens/HomeScreen';
 import SearchScreen from '../screens/SearchScreen';
 import DetailScreen from '../screens/DetailScreen';
@@ -10,21 +10,32 @@ import MovieListScreen from '../screens/MovieListScreen';
 import WatchlistScreen from '../screens/WatchlistScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import {colors} from '../theme/colors';
-import {spacing} from '../theme/spacing';
+import {radius, spacing} from '../theme/spacing';
 import {typography} from '../theme/typography';
 import type {RootTabParamList, RootStackParamList} from './types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<RootTabParamList>();
 
-const TAB_ICONS: Record<keyof RootTabParamList, {focused: string; default: string}> = {
-  Home: {focused: 'home', default: 'home-outline'},
-  Search: {focused: 'search', default: 'search-outline'},
-  Watchlist: {focused: 'bookmark', default: 'bookmark-outline'},
-  Profile: {focused: 'person', default: 'person-outline'},
-};
-
 const TAB_ICON_SIZE = 24;
+
+function tabIconName(
+  routeName: keyof RootTabParamList,
+  focused: boolean,
+): string {
+  switch (routeName) {
+    case 'Home':
+      return focused ? 'home-filled' : 'home';
+    case 'Search':
+      return 'search';
+    case 'Watchlist':
+      return focused ? 'bookmark' : 'bookmark-border';
+    case 'Profile':
+      return focused ? 'person' : 'person-outline';
+    default:
+      return 'circle';
+  }
+}
 
 function TabBarBackground() {
   return <View style={tabBarBgStyles.fill} />;
@@ -34,6 +45,8 @@ const tabBarBgStyles = StyleSheet.create({
   fill: {
     ...StyleSheet.absoluteFill,
     backgroundColor: colors.tab_bar_surface,
+    borderTopLeftRadius: radius.stitchLg,
+    borderTopRightRadius: radius.stitchLg,
   },
 });
 
@@ -50,11 +63,9 @@ function TabBarIcon({
   focused: boolean;
   color?: string;
 }) {
-  const icons = TAB_ICONS[routeName];
-  const iconName = focused ? icons.focused : icons.default;
   return (
-    <Icon
-      name={iconName}
+    <MaterialIcons
+      name={tabIconName(routeName, focused)}
       size={TAB_ICON_SIZE}
       color={color ?? colors.on_surface_variant}
     />
@@ -94,12 +105,13 @@ function TabsScreen() {
           borderTopWidth: 0,
           paddingTop: spacing.xs,
           elevation: 0,
+          overflow: 'hidden',
         },
         tabBarLabelStyle: {
-          ...typography.label_sm,
+          ...typography.home_tab_label,
           textTransform: 'uppercase',
         },
-        tabBarActiveTintColor: colors.primary_container,
+        tabBarActiveTintColor: colors.brand_accent,
         tabBarInactiveTintColor: colors.on_surface_variant,
         tabBarIcon: TAB_BAR_ICON[route.name],
       })}>
@@ -126,8 +138,12 @@ export default function RootNavigator() {
           headerShown: true,
           headerTitle: route.params.title,
           headerStyle: {backgroundColor: colors.surface},
-          headerTintColor: colors.primary_container,
-          headerTitleStyle: {...typography.title_lg, color: colors.on_surface},
+          headerTintColor: colors.brand_accent,
+          headerTitleStyle: {
+            ...typography.home_row_title,
+            fontSize: 20,
+            color: colors.on_surface,
+          },
         })}
       />
       <Stack.Screen name="Detail" component={DetailScreen} />

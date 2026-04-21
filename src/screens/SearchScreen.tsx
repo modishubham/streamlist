@@ -15,6 +15,7 @@ import {
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AppBrandedHeader from '../components/common/AppBrandedHeader';
 import ContentCard from '../components/common/ContentCard';
 import GenreChipStrip from '../components/home/GenreChipStrip';
 import SearchGridSkeleton from '../components/skeleton/SearchGridSkeleton';
@@ -24,7 +25,7 @@ import {useSearch} from '../hooks/useSearch';
 import {usePaginatedTrending} from '../hooks/usePaginatedMovies';
 import type {RootStackParamList} from '../navigation/types';
 import {colors} from '../theme/colors';
-import {spacing} from '../theme/spacing';
+import {radius, spacing, stitchLayout} from '../theme/spacing';
 import {typography} from '../theme/typography';
 import type {GenreChipOption} from '../utils/displayGenres';
 import {chunkPairs} from '../utils/chunkPairs';
@@ -124,19 +125,19 @@ export default function SearchScreen() {
   return (
     <View style={styles.root}>
       <View style={[styles.headerShell, {paddingTop: insets.top}]}>
-        <View style={styles.headerRow}>
-          <View style={styles.brand}>
-            <Icon
-              name="local-fire-department"
-              size={28}
-              color={colors.primary_container}
-            />
-            <Text style={styles.wordmark}>StreamList</Text>
-          </View>
-          <View style={styles.profileIcon}>
-            <Ionicons name="person" size={16} color={colors.on_surface} />
-          </View>
-        </View>
+        <AppBrandedHeader
+          rightSlot={
+            <View
+              style={styles.profileAvatar}
+              accessibilityLabel="Profile">
+              <Icon
+                name="person"
+                size={22}
+                color={colors.on_surface_variant}
+              />
+            </View>
+          }
+        />
 
         <View
           style={[
@@ -234,7 +235,7 @@ export default function SearchScreen() {
                   </Text>
                 }
                 contentContainerStyle={{
-                  paddingHorizontal: spacing.md,
+                  paddingHorizontal: stitchLayout.screenGutter,
                   paddingTop: spacing.md,
                   paddingBottom: tabBarHeight + spacing.lg,
                 }}
@@ -319,39 +320,25 @@ const styles = StyleSheet.create({
     backgroundColor: colors.header_surface,
     zIndex: 10,
   },
-  headerRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-  },
-  brand: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.xs,
-  },
-  wordmark: {
-    ...typography.title_lg,
-    color: colors.primary_container,
-    textTransform: 'uppercase',
-    letterSpacing: 1,
-  },
-  profileIcon: {
-    width: spacing['2xl'],
-    height: spacing['2xl'],
-    borderRadius: spacing.md,
-    backgroundColor: colors.surface_container_high,
+  /** Stitch search header: `w-10 h-10 rounded-full` profile control. */
+  profileAvatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: colors.surface_container_highest,
+    borderWidth: 2,
+    borderColor: 'rgba(255, 255, 255, 0.12)',
     alignItems: 'center',
     justifyContent: 'center',
+    overflow: 'hidden',
   },
   searchBar: {
     flexDirection: 'row',
     alignItems: 'center',
     minHeight: SEARCH_BAR_MIN_HEIGHT,
     backgroundColor: colors.surface_container_low,
-    borderRadius: spacing.sm,
-    marginHorizontal: spacing.md,
+    borderRadius: radius.stitchXl,
+    marginHorizontal: spacing.xl,
     marginBottom: spacing.sm,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
@@ -383,11 +370,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: spacing.md,
+    paddingHorizontal: stitchLayout.screenGutter,
     marginBottom: spacing.sm,
   },
   sectionTitle: {
-    ...typography.headline_md,
+    ...typography.home_row_title,
     color: colors.on_surface,
   },
   clearAll: {
@@ -399,7 +386,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.sm,
-    paddingHorizontal: spacing.md,
+    paddingHorizontal: stitchLayout.screenGutter,
     paddingVertical: spacing.sm,
   },
   recentText: {
@@ -410,12 +397,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   resultsHeaderSkeleton: {
-    paddingHorizontal: spacing.md,
+    paddingHorizontal: stitchLayout.screenGutter,
     paddingTop: spacing.md,
     marginBottom: spacing.sm,
   },
   trendingGrid: {
-    paddingHorizontal: spacing.md,
+    paddingHorizontal: stitchLayout.screenGutter,
     gap: CARD_GAP,
   },
   gridRow: {
@@ -435,7 +422,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: spacing.sm,
-    paddingHorizontal: spacing.md,
+    paddingHorizontal: stitchLayout.screenGutter,
   },
   errorText: {
     ...typography.body_md,

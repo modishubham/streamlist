@@ -2,7 +2,7 @@ import React from 'react';
 import {Pressable, ScrollView, StyleSheet, Text} from 'react-native';
 import type {GenreChipOption} from '../../utils/displayGenres';
 import {colors} from '../../theme/colors';
-import {radius, spacing} from '../../theme/spacing';
+import {radius, spacing, stitchLayout} from '../../theme/spacing';
 import {typography} from '../../theme/typography';
 
 interface GenreChipStripProps {
@@ -27,6 +27,7 @@ function GenreChipStrip({options, selectedId, onSelect}: GenreChipStripProps) {
             style={[
               styles.chip,
               active ? styles.chipActive : styles.chipInactive,
+              !active && styles.chipInactiveBorder,
             ]}
             accessibilityRole="button"
             accessibilityState={{selected: active}}
@@ -47,29 +48,34 @@ function GenreChipStrip({options, selectedId, onSelect}: GenreChipStripProps) {
 
 const styles = StyleSheet.create({
   scrollContent: {
-    paddingHorizontal: spacing.md,
+    paddingHorizontal: stitchLayout.screenGutter,
     gap: spacing.sm,
     paddingBottom: spacing.sm,
   },
   chip: {
     paddingHorizontal: spacing.xl,
-    paddingVertical: spacing.sm,
+    paddingVertical: 10,
     borderRadius: radius.pill,
   },
   chipActive: {
     backgroundColor: colors.genre_chip_active_background,
   },
   chipInactive: {
-    backgroundColor: colors.search_field_background,
+    backgroundColor: colors.surface_container_low,
+  },
+  chipInactiveBorder: {
+    borderWidth: 1,
+    borderColor: colors.chip_inactive_border,
   },
   chipText: {
-    ...typography.chip_label,
+    ...typography.home_genre_chip,
   },
   chipTextActive: {
     color: colors.on_surface,
   },
+  /** Stitch: inactive pills use `text-on-surface-variant`, not primary tint. */
   chipTextInactive: {
-    color: colors.chip_inactive_text,
+    color: colors.on_surface_variant,
   },
 });
 

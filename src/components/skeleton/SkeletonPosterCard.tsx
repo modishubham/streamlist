@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import SkeletonBox from './SkeletonBox';
-import {spacing} from '../../theme/spacing';
+import {radius, spacing} from '../../theme/spacing';
 
 const POSTER_ASPECT = 2 / 3;
 
@@ -20,7 +20,7 @@ function SkeletonPosterCard({width}: SkeletonPosterCardProps) {
       <SkeletonBox
         width={width}
         height={posterHeight}
-        borderRadius={spacing.sm}
+        borderRadius={radius.stitchXl}
       />
       <SkeletonBox
         width={width * 0.88}

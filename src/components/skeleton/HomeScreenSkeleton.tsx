@@ -1,27 +1,22 @@
-import React, {useMemo} from 'react';
+import React from 'react';
 import {Dimensions, ScrollView, StyleSheet, View} from 'react-native';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {HOME_HEADER_CONTENT_HEIGHT} from '../home/homeLayout';
 import SkeletonBox from './SkeletonBox';
 import SkeletonPosterCard from './SkeletonPosterCard';
 import {colors} from '../../theme/colors';
-import {radius, spacing} from '../../theme/spacing';
+import {radius, spacing, stitchLayout} from '../../theme/spacing';
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
-const HERO_WIDTH = SCREEN_WIDTH - spacing.md * 2;
-const POSTER_ASPECT = 2 / 3;
-const HERO_HEIGHT = HERO_WIDTH / POSTER_ASPECT;
+const HERO_WIDTH = SCREEN_WIDTH - stitchLayout.screenGutter * 2;
+const HERO_HEIGHT = stitchLayout.heroBandHeight;
 const CHIP_COUNT = 6;
 /** Match visible posters in a horizontal row (~2 per screen). */
 const ROW_CARD_COUNT = 2;
 
 function HomeScreenSkeleton() {
   const insets = useSafeAreaInsets();
-  const cardWidth = useMemo(() => {
-    const gap = spacing.md;
-    const pad = spacing.md * 2;
-    return (SCREEN_WIDTH - pad - gap) / 2;
-  }, []);
+  const cardWidth = stitchLayout.posterWidth;
 
   const contentTop = insets.top + HOME_HEADER_CONTENT_HEIGHT + spacing.md;
 
@@ -51,7 +46,7 @@ function HomeScreenSkeleton() {
         <SkeletonBox
           width={HERO_WIDTH}
           height={HERO_HEIGHT}
-          borderRadius={spacing.lg}
+          borderRadius={radius.stitchXl}
           style={styles.hero}
         />
 
@@ -61,12 +56,12 @@ function HomeScreenSkeleton() {
               <SkeletonBox
                 width={SCREEN_WIDTH * 0.42}
                 height={spacing.lg}
-                borderRadius={spacing.xs}
+                borderRadius={radius.stitchLg}
               />
               <SkeletonBox
                 width={spacing['3xl']}
                 height={spacing.md}
-                borderRadius={spacing.xs}
+                borderRadius={radius.stitchLg}
               />
             </View>
             <View style={styles.horizontalRow}>
@@ -95,7 +90,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: spacing.sm,
-    paddingHorizontal: spacing.md,
+    paddingHorizontal: stitchLayout.screenGutter,
     marginBottom: spacing.md,
   },
   hero: {
@@ -109,15 +104,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: spacing.md,
+    paddingHorizontal: stitchLayout.screenGutter,
     marginBottom: spacing.sm,
   },
   horizontalRow: {
     flexDirection: 'row',
-    paddingHorizontal: spacing.md,
+    paddingHorizontal: stitchLayout.screenGutter,
   },
   cardGap: {
-    marginLeft: spacing.md,
+    marginLeft: stitchLayout.posterRowGap,
   },
 });
 

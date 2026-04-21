@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback} from 'react';
 import {
   FlatList,
   type NativeScrollEvent,
@@ -6,13 +6,12 @@ import {
   Pressable,
   StyleSheet,
   Text,
-  useWindowDimensions,
   View,
 } from 'react-native';
 import type {Movie} from '../../api/types';
 import ContentCard from '../common/ContentCard';
 import {colors} from '../../theme/colors';
-import {spacing} from '../../theme/spacing';
+import {spacing, stitchLayout} from '../../theme/spacing';
 import {typography} from '../../theme/typography';
 import {formatMovieSubtitle} from '../../utils/movieDisplay';
 
@@ -39,15 +38,9 @@ function MovieRow({
   onNearEnd,
   listKey,
 }: MovieRowProps) {
-  const {width: windowWidth} = useWindowDimensions();
+  const cardWidth = stitchLayout.posterWidth;
 
-  const cardWidth = useMemo(() => {
-    const gap = spacing.md;
-    const pad = spacing.md * 2;
-    return (windowWidth - pad - gap) / 2;
-  }, [windowWidth]);
-
-  const itemSpan = cardWidth + spacing.md;
+  const itemSpan = cardWidth + stitchLayout.posterRowGap;
 
   const handleScroll = useCallback(
     (e: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -81,6 +74,7 @@ function MovieRow({
         ItemSeparatorComponent={RowItemSeparator}
         renderItem={({item}) => (
           <ContentCard
+            layoutVariant="stitch"
             posterPath={item.poster_path}
             title={item.title}
             subtitle={formatMovieSubtitle(item, genreNamesById)}
@@ -95,28 +89,28 @@ function MovieRow({
 
 const styles = StyleSheet.create({
   section: {
-    marginBottom: spacing.xl,
+    marginBottom: spacing['3xl'] + spacing.md,
   },
   sectionHeader: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     justifyContent: 'space-between',
-    paddingHorizontal: spacing.md,
-    marginBottom: spacing.sm,
+    paddingHorizontal: stitchLayout.screenGutter,
+    marginBottom: spacing.xl,
   },
   sectionTitle: {
-    ...typography.headline_md,
+    ...typography.home_row_title,
     color: colors.on_surface,
   },
   seeAll: {
-    ...typography.title_sm,
-    color: colors.see_all,
+    ...typography.home_row_see_all,
+    color: colors.on_surface_variant,
   },
   listContent: {
-    paddingHorizontal: spacing.md,
+    paddingHorizontal: stitchLayout.screenGutter,
   },
   itemSeparator: {
-    width: spacing.md,
+    width: stitchLayout.posterRowGap,
   },
 });
 

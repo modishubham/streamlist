@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {colors} from '../../theme/colors';
-import {spacing} from '../../theme/spacing';
+import {radius, spacing, stitchLayout} from '../../theme/spacing';
 import {typography} from '../../theme/typography';
 import {getImageUrl} from '../../utils/image';
 
@@ -20,6 +20,8 @@ interface ContentCardProps {
   rating?: number;
   onPress?: () => void;
   style?: ViewStyle;
+  /** Stitch home row: fixed 160×240 poster + 12px corners. */
+  layoutVariant?: 'default' | 'stitch';
 }
 
 const ASPECT_RATIO = 2 / 3;
@@ -31,8 +33,10 @@ function ContentCard({
   rating,
   onPress,
   style,
+  layoutVariant = 'default',
 }: ContentCardProps) {
   const imageUri = getImageUrl(posterPath, 'w500');
+  const stitchPoster = layoutVariant === 'stitch';
 
   return (
     <Pressable
@@ -40,7 +44,11 @@ function ContentCard({
       style={({pressed}) => [styles.container, pressed && styles.pressed, style]}
       accessibilityRole="button"
       accessibilityLabel={title}>
-      <View style={styles.imageWrapper}>
+      <View
+        style={[
+          styles.imageWrapper,
+          stitchPoster && styles.imageWrapperStitch,
+        ]}>
         {imageUri ? (
           <Image source={{uri: imageUri}} style={styles.image} />
         ) : (
@@ -80,9 +88,13 @@ const styles = StyleSheet.create({
   },
   imageWrapper: {
     aspectRatio: ASPECT_RATIO,
-    borderRadius: spacing.sm,
-    backgroundColor: colors.surface_container,
+    borderRadius: radius.stitchXl,
+    backgroundColor: colors.surface_container_low,
     overflow: 'hidden',
+  },
+  imageWrapperStitch: {
+    aspectRatio: undefined,
+    height: stitchLayout.posterHeight,
   },
   image: {
     width: '100%',
@@ -103,19 +115,19 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surface_container_highest,
     paddingHorizontal: spacing.xs,
     paddingVertical: spacing.xxs,
-    borderRadius: spacing.sm,
+    borderRadius: radius.stitchXs,
   },
   ratingText: {
     ...typography.label_sm,
     color: colors.on_surface,
   },
   title: {
-    ...typography.title_sm,
+    ...typography.home_card_title,
     color: colors.on_surface,
     marginTop: spacing.sm,
   },
   subtitle: {
-    ...typography.label_sm,
+    ...typography.home_card_meta,
     color: colors.on_surface_variant,
     marginTop: spacing.xxs,
   },

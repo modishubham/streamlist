@@ -28,13 +28,13 @@ import {
 } from '../hooks/usePaginatedMovies';
 import type {RootStackParamList} from '../navigation/types';
 import {colors} from '../theme/colors';
-import {spacing} from '../theme/spacing';
+import {spacing, stitchLayout} from '../theme/spacing';
 import {typography} from '../theme/typography';
 import type {GenreChipOption} from '../utils/displayGenres';
 import {buildGenreChipOptions} from '../utils/displayGenres';
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
-const HERO_WIDTH = SCREEN_WIDTH - spacing.md * 2;
+const HERO_WIDTH = SCREEN_WIDTH - stitchLayout.screenGutter * 2;
 const SCROLL_LOAD_MORE_THRESHOLD = 400;
 
 export default function HomeScreen() {
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
     marginTop: spacing.md,
   },
   rowMessage: {
-    paddingHorizontal: spacing.md,
+    paddingHorizontal: stitchLayout.screenGutter,
     paddingVertical: spacing.lg,
   },
   rowErrorText: {
@@ -267,6 +267,6 @@ const styles = StyleSheet.create({
     ...typography.body_md,
     color: colors.primary_container,
     textAlign: 'center',
-    paddingHorizontal: spacing.md,
+    paddingHorizontal: stitchLayout.screenGutter,
   },
 });
