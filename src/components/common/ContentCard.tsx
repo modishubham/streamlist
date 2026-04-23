@@ -20,8 +20,10 @@ interface ContentCardProps {
   rating?: number;
   onPress?: () => void;
   style?: ViewStyle;
-  /** Stitch home row: fixed 160×240 poster + 12px corners. */
+  /** Stitch home row: 2:3 poster + 12px corners. Height defaults from `stitchLayout`. */
   layoutVariant?: 'default' | 'stitch';
+  /** When `layoutVariant` is `stitch`, overrides `stitchLayout.posterHeight`. */
+  stitchImageHeight?: number;
 }
 
 const ASPECT_RATIO = 2 / 3;
@@ -34,9 +36,14 @@ function ContentCard({
   onPress,
   style,
   layoutVariant = 'default',
+  stitchImageHeight,
 }: ContentCardProps) {
   const imageUri = getImageUrl(posterPath, 'w500');
   const stitchPoster = layoutVariant === 'stitch';
+  const stitchHeightOverride =
+    stitchPoster && stitchImageHeight !== undefined
+      ? {height: stitchImageHeight}
+      : null;
 
   return (
     <Pressable
@@ -48,6 +55,7 @@ function ContentCard({
         style={[
           styles.imageWrapper,
           stitchPoster && styles.imageWrapperStitch,
+          stitchHeightOverride,
         ]}>
         {imageUri ? (
           <Image source={{uri: imageUri}} style={styles.image} />

@@ -5,18 +5,18 @@ import {HOME_HEADER_CONTENT_HEIGHT} from '../home/homeLayout';
 import SkeletonBox from './SkeletonBox';
 import SkeletonPosterCard from './SkeletonPosterCard';
 import {colors} from '../../theme/colors';
-import {radius, spacing, stitchLayout} from '../../theme/spacing';
+import {homeRowCardDimensions, radius, spacing, stitchLayout} from '../../theme/spacing';
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 const HERO_WIDTH = SCREEN_WIDTH - stitchLayout.screenGutter * 2;
 const HERO_HEIGHT = stitchLayout.heroBandHeight;
 const CHIP_COUNT = 6;
-/** Match visible posters in a horizontal row (~2 per screen). */
+/** Match visible posters in a horizontal row (two per viewport, Stitch). */
 const ROW_CARD_COUNT = 2;
 
 function HomeScreenSkeleton() {
   const insets = useSafeAreaInsets();
-  const cardWidth = stitchLayout.posterWidth;
+  const {width: cardWidth} = homeRowCardDimensions(SCREEN_WIDTH);
 
   const contentTop = insets.top + HOME_HEADER_CONTENT_HEIGHT + spacing.md;
 

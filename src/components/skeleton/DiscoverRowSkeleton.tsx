@@ -2,13 +2,13 @@ import React from 'react';
 import {Dimensions, StyleSheet, View} from 'react-native';
 import SkeletonBox from './SkeletonBox';
 import SkeletonPosterCard from './SkeletonPosterCard';
-import {radius, spacing, stitchLayout} from '../../theme/spacing';
+import {homeRowCardDimensions, radius, spacing, stitchLayout} from '../../theme/spacing';
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
-const ROW_CARD_COUNT = 3;
+const ROW_CARD_COUNT = 2;
 
 function DiscoverRowSkeleton() {
-  const cardWidth = stitchLayout.posterWidth;
+  const {width: cardWidth} = homeRowCardDimensions(SCREEN_WIDTH);
 
   return (
     <View

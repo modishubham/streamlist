@@ -155,6 +155,7 @@ export default function HomeScreen() {
             onDetails={() => openDetail(heroMovie.id)}
           />
         ) : null}
+        {/* Row carousels: two poster cards per viewport (homeRowCardDimensions + MovieRow). */}
         <View style={styles.rows}>
           <MovieRow
             title="Trending Now"

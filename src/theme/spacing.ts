@@ -15,17 +15,39 @@ export const spacing = {
 export type SpacingToken = keyof typeof spacing;
 
 /**
- * Sizes from Stitch project `18386357471434296476` (Home HTML).
- * Tailwind: `px-8`, `gap-8`, `w-[160px]` `h-[240px]`, hero `h-[450px]`.
+ * Sizes from Stitch project `18386357471434296476` — "Home (Updated Nav)".
+ * HTML: `px-8`, `gap-8`, `w-[160px]` `h-[240px]`, hero `h-[450px]`.
+ *
+ * On device, row posters use `homeRowCardDimensions()` so two full cards
+ * (plus one gap) fit the visible area between screen gutters, matching
+ * the Stitch horizontal row intent at a larger touch size.
  */
 export const stitchLayout = {
   screenGutter: 32,
+  /** Reference poster width in Stitch HTML (160px at design width). */
   posterWidth: 160,
+  /** Reference poster height in Stitch HTML (240px). */
   posterHeight: 240,
   heroBandHeight: 450,
   /** Horizontal gap between carousel cards (`gap-8`). */
   posterRowGap: 32,
 } as const;
+
+/** Two full poster cards + one `posterRowGap` between screen gutters. */
+export function homeRowCardDimensions(
+  windowWidth: number,
+): {width: number; height: number} {
+  const g = stitchLayout.screenGutter;
+  const gap = stitchLayout.posterRowGap;
+  const w = Math.max(
+    0,
+    Math.floor((windowWidth - 2 * g - gap) / 2),
+  );
+  const h = Math.round(
+    (w * stitchLayout.posterHeight) / stitchLayout.posterWidth,
+  );
+  return {width: w, height: h};
+}
 
 /**
  * Corner radii from Stitch tailwind extend:

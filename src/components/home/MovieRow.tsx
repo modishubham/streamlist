@@ -6,12 +6,13 @@ import {
   Pressable,
   StyleSheet,
   Text,
+  useWindowDimensions,
   View,
 } from 'react-native';
 import type {Movie} from '../../api/types';
 import ContentCard from '../common/ContentCard';
 import {colors} from '../../theme/colors';
-import {spacing, stitchLayout} from '../../theme/spacing';
+import {homeRowCardDimensions, spacing, stitchLayout} from '../../theme/spacing';
 import {typography} from '../../theme/typography';
 import {formatMovieSubtitle} from '../../utils/movieDisplay';
 
@@ -38,7 +39,9 @@ function MovieRow({
   onNearEnd,
   listKey,
 }: MovieRowProps) {
-  const cardWidth = stitchLayout.posterWidth;
+  const {width: windowWidth} = useWindowDimensions();
+  const {width: cardWidth, height: cardPosterHeight} =
+    homeRowCardDimensions(windowWidth);
 
   const itemSpan = cardWidth + stitchLayout.posterRowGap;
 
@@ -79,7 +82,8 @@ function MovieRow({
             title={item.title}
             subtitle={formatMovieSubtitle(item, genreNamesById)}
             onPress={() => onSelectMovie(item.id)}
-            style={{width: cardWidth}}
+            stitchImageHeight={cardPosterHeight}
+            style={[styles.poster, {width: cardWidth}]}
           />
         )}
       />
@@ -111,6 +115,9 @@ const styles = StyleSheet.create({
   },
   itemSeparator: {
     width: stitchLayout.posterRowGap,
+  },
+  poster: {
+    flexShrink: 0,
   },
 });
 
