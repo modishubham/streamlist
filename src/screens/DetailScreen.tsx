@@ -1,14 +1,20 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {
   Dimensions,
   FlatList,
   Image,
   LayoutAnimation,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
   Text,
+  UIManager,
   View,
+  useWindowDimensions,
+  type LayoutChangeEvent,
+  type NativeSyntheticEvent,
+  type TextLayoutEventData,
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
@@ -165,20 +171,82 @@ function WatchlistButton({detail}: {detail: MovieDetail}) {
   );
 }
 
-function Synopsis({overview}: {overview: string}) {
-  const [expanded, setExpanded] = useState(false);
-  const [needsTruncation, setNeedsTruncation] = useState(false);
+function estimateSynopsisExceedsThreeLines(text: string, bodyWidth: number) {
+  const w = bodyWidth > 0 ? bodyWidth : 1;
+  /** ~8px per Latin character at body_md; conservative so “Read more” appears when likely >3 lines */
+  const charsPerLine = Math.max(18, Math.floor(w / 7.5));
+  const lines = Math.ceil(text.trim().length / charsPerLine);
+  return lines > 3;
+}
 
-  const handleTextLayout = useCallback(
-    (e: {nativeEvent: {lines: Array<{text: string}>}}) => {
-      if (e.nativeEvent.lines.length > 3 && !expanded) {
-        setNeedsTruncation(true);
-      }
+function Synopsis({overview}: {overview: string}) {
+  const {width: windowWidth} = useWindowDimensions();
+  const [expanded, setExpanded] = useState(false);
+  const [truncatable, setTruncatable] = useState(false);
+  const [measured, setMeasured] = useState(false);
+  const [bodyWidth, setBodyWidth] = useState(0);
+  const measuredRef = useRef(false);
+
+  const fallbackBodyWidth = Math.max(0, windowWidth - spacing.xl * 2);
+  const measureWidth =
+    bodyWidth > 0 ? bodyWidth : Math.max(1, fallbackBodyWidth);
+
+  useEffect(() => {
+    setExpanded(false);
+    setTruncatable(false);
+    setMeasured(false);
+    measuredRef.current = false;
+  }, [overview]);
+
+  useEffect(() => {
+    if (
+      Platform.OS === 'android' &&
+      UIManager.setLayoutAnimationEnabledExperimental
+    ) {
+      UIManager.setLayoutAnimationEnabledExperimental(true);
+    }
+  }, []);
+
+  const applyMeasureResult = useCallback((lineCount: number) => {
+    if (measuredRef.current) {
+      return;
+    }
+    measuredRef.current = true;
+    setTruncatable(lineCount > 3);
+    setMeasured(true);
+  }, []);
+
+  const onMeasureLayout = useCallback(
+    (e: NativeSyntheticEvent<TextLayoutEventData>) => {
+      applyMeasureResult(e.nativeEvent.lines.length);
     },
-    [expanded],
+    [applyMeasureResult],
   );
 
-  const toggle = useCallback(() => {
+  /** Some platforms skip or defer onTextLayout for invisible/off-flow Text — ensure we still unlock layout + button */
+  useEffect(() => {
+    if (measuredRef.current) {
+      return;
+    }
+    const id = setTimeout(() => {
+      if (measuredRef.current) {
+        return;
+      }
+      measuredRef.current = true;
+      setTruncatable(estimateSynopsisExceedsThreeLines(overview, measureWidth));
+      setMeasured(true);
+    }, 400);
+    return () => clearTimeout(id);
+  }, [overview, measureWidth]);
+
+  const onSynopsisBodyLayout = useCallback((e: LayoutChangeEvent) => {
+    const w = e.nativeEvent.layout.width;
+    if (w > 0) {
+      setBodyWidth(prev => (prev === w ? prev : w));
+    }
+  }, []);
+
+  const toggleExpanded = useCallback(() => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setExpanded(prev => !prev);
   }, []);
@@ -190,25 +258,43 @@ function Synopsis({overview}: {overview: string}) {
   return (
     <View style={styles.synopsisSection}>
       <Text style={styles.sectionTitle}>Synopsis</Text>
-      <Text
-        style={styles.synopsisText}
-        numberOfLines={expanded ? undefined : 3}
-        onTextLayout={handleTextLayout}>
-        {overview}
-        {needsTruncation && !expanded && (
-          <Text style={styles.readMore}> Read more</Text>
-        )}
-      </Text>
-      {needsTruncation && expanded && (
-        <Pressable onPress={toggle} hitSlop={spacing.xs}>
-          <Text style={styles.readMore}>Show Less</Text>
-        </Pressable>
-      )}
-      {needsTruncation && !expanded && (
-        <Pressable onPress={toggle} hitSlop={spacing.xs}>
-          <Text style={styles.readMore}>Read more</Text>
-        </Pressable>
-      )}
+      <View
+        style={styles.synopsisBody}
+        onLayout={onSynopsisBodyLayout}
+        collapsable={false}>
+        {!measured ? (
+          <Text
+            accessibilityElementsHidden
+            importantForAccessibility="no-hide-descendants"
+            style={[
+              styles.synopsisText,
+              styles.synopsisMeasure,
+              {width: measureWidth},
+            ]}
+            onTextLayout={onMeasureLayout}>
+            {overview}
+          </Text>
+        ) : null}
+        <Text
+          style={styles.synopsisText}
+          numberOfLines={
+            !measured ? 3 : truncatable && !expanded ? 3 : undefined
+          }>
+          {overview}
+        </Text>
+        {truncatable ? (
+          <Pressable
+            onPress={toggleExpanded}
+            hitSlop={spacing.xs}
+            style={styles.readMoreButton}
+            accessibilityRole="button"
+            accessibilityLabel={expanded ? 'Read less' : 'Read more'}>
+            <Text style={styles.readMoreLabel}>
+              {expanded ? 'Read less' : 'Read more'}
+            </Text>
+          </Pressable>
+        ) : null}
+      </View>
     </View>
   );
 }
@@ -589,17 +675,30 @@ const styles = StyleSheet.create({
   synopsisSection: {
     marginBottom: spacing['3xl'],
   },
+  synopsisBody: {
+    position: 'relative',
+    paddingHorizontal: spacing.xl,
+  },
   synopsisText: {
     ...typography.body_md,
     color: colors.on_surface_variant,
-    paddingHorizontal: spacing.xl,
     lineHeight: 22,
   },
-  readMore: {
+  synopsisMeasure: {
+    position: 'absolute',
+    /** >0 so layout engines still run full text measurement (opacity:0 can skip onTextLayout on some devices) */
+    opacity: 0.02,
+    left: 0,
+    top: 0,
+  },
+  readMoreButton: {
+    alignSelf: 'flex-start',
+    marginTop: spacing.xs,
+  },
+  readMoreLabel: {
     ...typography.title_sm,
-    color: colors.on_surface,
-    paddingHorizontal: spacing.xl,
-    marginTop: spacing.xxs,
+    fontWeight: '600',
+    color: colors.primary,
   },
 
   // Cast — HTML: w-16 h-16 (64px), ring-2 ring-outline-variant/20, gap-6, mb-10

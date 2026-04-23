@@ -1,0 +1,24 @@
+---
+alwaysApply: true
+---
+
+### ContentCard — standard portrait card:
+- Aspect ratio: 2:3
+- Border radius: 16px outer container, 12px internal elements
+- No borders — background colour defines card edge
+- Rating badge: top-right overlay, `surface_container_highest` background, `primary_container` star icon
+- Title: `title-lg` typography token, `on_surface`
+- Subtitle (year • genre): `label-sm`, `on_surface_variant`
+- `posterPath` may be null — always handle: show `surface_container_high` placeholder with centred StreamList icon, never a broken image
+
+### SkeletonCard — required for every async section:
+- Shape must match the content it replaces (portrait rectangle for cards, circle for cast avatars, wide rectangle for text)
+- Base colour: `surface_container_high`
+- Shimmer: animated opacity or gradient sweep between `surface_container_high` and `surface_bright`
+- Animation duration: ~1500ms loop
+- Never use ActivityIndicator/spinner as a substitute for skeleton loading
+
+### Buttons:
+- Primary CTA: `react-native-linear-gradient` with `['#FFB3AE', '#FF5351']`, start `{x:0,y:0}`, end `{x:1,y:1}`
+- Secondary: `surface_container_highest` background, `on_surface` text
+- "In Watchlist" state: `surface_container_highest` background, `outline_variant` border at 15% opacity, `primary_container` icon

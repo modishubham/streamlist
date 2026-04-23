@@ -67,13 +67,26 @@ export async function getSimilarMovies(
   return data;
 }
 
+export type DiscoverMoviesOptions = {
+  sortBy?: string;
+  /** TMDB `vote_count.gte` — useful when sorting by vote average */
+  voteCountGte?: number;
+};
+
 export async function discoverMovies(
   page = 1,
   withGenresId?: number,
+  options?: DiscoverMoviesOptions,
 ): Promise<PaginatedResponse<Movie>> {
-  const params: Record<string, number> = {page};
+  const params: Record<string, string | number> = {page};
   if (withGenresId !== undefined) {
     params.with_genres = withGenresId;
+  }
+  if (options?.sortBy !== undefined) {
+    params.sort_by = options.sortBy;
+  }
+  if (options?.voteCountGte !== undefined) {
+    params['vote_count.gte'] = options.voteCountGte;
   }
   const {data} = await client.get<PaginatedResponse<Movie>>(
     '/discover/movie',

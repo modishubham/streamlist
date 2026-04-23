@@ -54,8 +54,8 @@ export default function HomeScreen() {
     label: 'All',
   });
 
-  const trending = usePaginatedTrending();
-  const topRated = usePaginatedTopRated();
+  const trending = usePaginatedTrending(selectedGenre.id);
+  const topRated = usePaginatedTopRated(selectedGenre.id);
   const discover = useDiscoverMovies(selectedGenre.id);
 
   const openDetail = useCallback(
@@ -162,26 +162,38 @@ export default function HomeScreen() {
             movies={trending.movies}
             genreNamesById={genreNamesById}
             onSeeAll={() =>
-              openMovieList({mode: 'trending', title: 'Trending Now'})
+              openMovieList({
+                mode: 'trending',
+                title: 'Trending Now',
+                ...(selectedGenre.id !== null
+                  ? {genreId: selectedGenre.id}
+                  : {}),
+              })
             }
             onSelectMovie={openDetail}
             onNearEnd={() => {
               trending.appendNextPage().catch(() => {});
             }}
-            listKey="trending"
+            listKey={`trending-${selectedGenre.id ?? 'all'}`}
           />
           <MovieRow
             title="Top Rated"
             movies={topRated.movies}
             genreNamesById={genreNamesById}
             onSeeAll={() =>
-              openMovieList({mode: 'top_rated', title: 'Top Rated'})
+              openMovieList({
+                mode: 'top_rated',
+                title: 'Top Rated',
+                ...(selectedGenre.id !== null
+                  ? {genreId: selectedGenre.id}
+                  : {}),
+              })
             }
             onSelectMovie={openDetail}
             onNearEnd={() => {
               topRated.appendNextPage().catch(() => {});
             }}
-            listKey="top_rated"
+            listKey={`top_rated-${selectedGenre.id ?? 'all'}`}
           />
           {discover.loading && discover.movies.length === 0 ? (
             <DiscoverRowSkeleton />

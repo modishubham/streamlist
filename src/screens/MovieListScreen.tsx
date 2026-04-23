@@ -1,5 +1,11 @@
-import React, {useCallback} from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import React, {useCallback, useMemo} from 'react';
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  useWindowDimensions,
+} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import type {Movie} from '../api/types';
@@ -16,12 +22,12 @@ import SkeletonFooterStrip from '../components/skeleton/SkeletonFooterStrip';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'MovieList'>;
 
-function MovieListSeparator() {
-  return <View style={movieListStyles.itemSeparator} />;
-}
+const NUM_COLUMNS = 2;
+const CARD_GAP = spacing.md;
 
 export default function MovieListScreen({route, navigation}: Props) {
   const {mode, genreId} = route.params;
+  const {width: windowWidth} = useWindowDimensions();
   const {genreNamesById} = useDisplayGenres();
   const {
     movies,
@@ -32,6 +38,13 @@ export default function MovieListScreen({route, navigation}: Props) {
     page,
     totalPages,
   } = useMovieList(mode, genreId);
+
+  const cardWidth = useMemo(
+    () =>
+      (windowWidth - spacing.md * 2 - CARD_GAP * (NUM_COLUMNS - 1)) /
+      NUM_COLUMNS,
+    [windowWidth],
+  );
 
   const onEndReached = useCallback(() => {
     if (page < totalPages && !loadingMore) {
@@ -48,16 +61,21 @@ export default function MovieListScreen({route, navigation}: Props) {
 
   const renderItem = useCallback(
     ({item}: {item: Movie}) => (
-      <ContentCard
-        posterPath={item.poster_path}
-        title={item.title}
-        subtitle={formatMovieSubtitle(item, genreNamesById)}
-        onPress={() => openDetail(item.id)}
-        style={styles.card}
-      />
+      <View style={styles.cardCell}>
+        <ContentCard
+          posterPath={item.poster_path}
+          title={item.title}
+          subtitle={formatMovieSubtitle(item, genreNamesById)}
+          rating={item.vote_average}
+          onPress={() => openDetail(item.id)}
+          style={{width: cardWidth}}
+        />
+      </View>
     ),
-    [genreNamesById, openDetail],
+    [cardWidth, genreNamesById, openDetail],
   );
+
+  const keyExtractor = useCallback((item: Movie) => String(item.id), []);
 
   if (loading && movies.length === 0) {
     return (
@@ -79,10 +97,11 @@ export default function MovieListScreen({route, navigation}: Props) {
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <FlatList
         data={movies}
-        keyExtractor={item => String(item.id)}
+        keyExtractor={keyExtractor}
         renderItem={renderItem}
+        numColumns={NUM_COLUMNS}
+        columnWrapperStyle={styles.gridRow}
         contentContainerStyle={styles.list}
-        ItemSeparatorComponent={MovieListSeparator}
         onEndReached={onEndReached}
         onEndReachedThreshold={0.35}
         ListFooterComponent={loadingMore ? <SkeletonFooterStrip /> : null}
@@ -90,12 +109,6 @@ export default function MovieListScreen({route, navigation}: Props) {
     </SafeAreaView>
   );
 }
-
-const movieListStyles = StyleSheet.create({
-  itemSeparator: {
-    height: spacing.md,
-  },
-});
 
 const styles = StyleSheet.create({
   container: {
@@ -117,10 +130,13 @@ const styles = StyleSheet.create({
     padding: spacing.md,
     paddingBottom: spacing['3xl'],
   },
-  card: {
-    width: '100%',
-    maxWidth: 400,
-    alignSelf: 'center',
+  gridRow: {
+    flexDirection: 'row',
+    gap: CARD_GAP,
+    marginBottom: CARD_GAP,
+  },
+  cardCell: {
+    flex: 1,
   },
   errorText: {
     ...typography.body_md,

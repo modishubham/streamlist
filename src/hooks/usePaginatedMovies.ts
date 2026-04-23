@@ -113,14 +113,41 @@ export function usePaginatedMovieList(
   };
 }
 
-export function usePaginatedTrending(): UsePaginatedMoviesResult {
-  const fetchPage = useCallback((p: number) => getTrending(p), []);
-  return usePaginatedMovieList('trending', fetchPage);
+export function usePaginatedTrending(
+  genreId: number | null = null,
+): UsePaginatedMoviesResult {
+  const fetchPage = useCallback(
+    (p: number) => {
+      if (genreId === null) {
+        return getTrending(p);
+      }
+      return discoverMovies(p, genreId, {sortBy: 'popularity.desc'});
+    },
+    [genreId],
+  );
+  const resetKey =
+    genreId === null ? 'trending:all' : `trending:genre:${genreId}`;
+  return usePaginatedMovieList(resetKey, fetchPage);
 }
 
-export function usePaginatedTopRated(): UsePaginatedMoviesResult {
-  const fetchPage = useCallback((p: number) => getTopRated(p), []);
-  return usePaginatedMovieList('top_rated', fetchPage);
+export function usePaginatedTopRated(
+  genreId: number | null = null,
+): UsePaginatedMoviesResult {
+  const fetchPage = useCallback(
+    (p: number) => {
+      if (genreId === null) {
+        return getTopRated(p);
+      }
+      return discoverMovies(p, genreId, {
+        sortBy: 'vote_average.desc',
+        voteCountGte: 200,
+      });
+    },
+    [genreId],
+  );
+  const resetKey =
+    genreId === null ? 'top_rated:all' : `top_rated:genre:${genreId}`;
+  return usePaginatedMovieList(resetKey, fetchPage);
 }
 
 export function useDiscoverMovies(
@@ -130,7 +157,9 @@ export function useDiscoverMovies(
     (p: number) => discoverMovies(p, withGenresId ?? undefined),
     [withGenresId],
   );
-  return usePaginatedMovieList(withGenresId, fetchPage);
+  const resetKey =
+    withGenresId === null ? 'discover:all' : `discover:genre:${withGenresId}`;
+  return usePaginatedMovieList(resetKey, fetchPage);
 }
 
 export function useMovieList(
@@ -140,16 +169,24 @@ export function useMovieList(
   const fetchPage = useCallback(
     (p: number) => {
       if (mode === 'trending') {
+        if (genreId != null) {
+          return discoverMovies(p, genreId, {sortBy: 'popularity.desc'});
+        }
         return getTrending(p);
       }
       if (mode === 'top_rated') {
+        if (genreId != null) {
+          return discoverMovies(p, genreId, {
+            sortBy: 'vote_average.desc',
+            voteCountGte: 200,
+          });
+        }
         return getTopRated(p);
       }
       return discoverMovies(p, genreId ?? undefined);
     },
     [mode, genreId],
   );
-  const resetKey =
-    mode === 'discover' ? `discover:${genreId ?? 'all'}` : mode;
+  const resetKey = `${mode}:${genreId ?? 'all'}`;
   return usePaginatedMovieList(resetKey, fetchPage);
 }

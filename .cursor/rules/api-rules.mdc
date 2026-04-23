@@ -1,0 +1,29 @@
+---
+alwaysApply: true
+---
+
+### Every screen fetches data exclusively through a custom hook.
+- No `useEffect` + direct API calls inside screen components.
+- No inline fetching in any component file.
+- All data logic lives in `src/hooks/`.
+
+### Every custom hook must return this exact shape — no deviations:
+```typescript
+interface UseQueryResult<T> {
+  data: T | null;
+  loading: boolean;
+  error: string | null;
+  refetch: () => void;
+}
+```
+
+If you generate a hook that returns `isLoading`, `isError`, `errorMessage`, or any other field names — that is wrong. Use exactly `data`, `loading`, `error`, `refetch`.
+
+### All API calls route through `src/api/client.ts`:
+- `client.ts` exports a single configured Axios instance.
+- It must include:
+  - Request interceptor: attaches `Authorization: Bearer {token}` from env vars to every request.
+  - Response interceptor: normalises errors to `{ message: string; status: number }`.
+  - Retry logic: one automatic retry on network errors (not on 4xx/5xx).
+- `src/api/movies.ts` imports the client instance and exports named endpoint functions.
+- Hooks import from `src/api/movies.ts` — never from `client.ts` directly and never from `axios` directly.
