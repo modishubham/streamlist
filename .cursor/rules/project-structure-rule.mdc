@@ -2,8 +2,11 @@
 alwaysApply: true
 ---
 
-Every screen fetches data exclusively through a custom hook. No inline useEffect + fetch in screen components.
-All API calls go through src/api/client.ts. No direct Axios imports in hooks or components.
-All colour values come from src/theme/colors.ts. No hardcoded hex strings in component files.
-All spacing values come from src/theme/spacing.ts. No hardcoded pixel values in StyleSheet.
-Navigation types must be defined in src/navigation/types.ts and used everywhere.
+- Use useCallback for functions passed as props
+- Use useMemo for expensive computations
+- Always define explicit types/interfaces — never use `any`
+- Every screen must fetches data exclusively through a custom hook. No inline useEffect + fetch in screen components.
+- All API calls go through src/api/client.ts. No direct Axios imports in hooks or components.
+- All colour values come from src/theme/colors.ts. No hardcoded hex strings in component files.
+- All spacing values come from src/theme/spacing.ts. No hardcoded pixel values in StyleSheet.
+- Navigation types must be defined in src/navigation/types.ts and used everywhere.

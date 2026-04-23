@@ -2,12 +2,12 @@
 alwaysApply: true
 ---
 
-Use surface_bright (#3A3939) for pressed/active states on dark cards
-Allow asymmetry — the hero card on Home occupies significantly more width than regular cards
-Use spacing tokens to signal section boundaries, not borders or dividers
-Use on_surface_variant for all secondary metadata
+- Always use StyleSheet.create() only — no inline styles should be applied
+- Use surface_bright (#3A3939) for pressed/active states on dark cards
+- Use spacing tokens to signal section boundaries, not borders or dividers
+- Use on_surface_variant for all secondary metadata
 
-Do not use pure white (#FFFFFF) for any text
-Do not use a 1px solid border at full opacity anywhere
-do not use dividers between list or carousel items
-do not hardcode any hex colour outside src/theme/colors.ts
+- Do not use pure white (#FFFFFF) for any text
+- Do not use a 1px solid border at full opacity anywhere
+- Do not use dividers between list or carousel items
+- Do not hardcode any hex colour outside src/theme/colors.ts
